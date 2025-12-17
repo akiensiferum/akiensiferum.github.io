@@ -19,6 +19,9 @@ async function includePartials() {
     const href = (a.getAttribute("href") || "").replace(/\/$/, "") || "/";
     if (href === path) a.setAttribute("aria-current", "page");
   });
+  
+  // ✅ ADD THIS: tell other scripts partials are now in the DOM
+  document.dispatchEvent(new Event("partials:loaded"));
 }
 
 document.addEventListener("DOMContentLoaded", includePartials);
