@@ -1,14 +1,13 @@
 // assets/js/lang-switch.js
-document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll("[data-lang]");
+function rewriteLangLinks() {
+  const links = document.querySelectorAll("a[data-lang]");
   if (!links.length) return;
 
-  const path = location.pathname;
-
-  // Detect current language prefix
+  const path = location.pathname; // e.g. /it/tools/
   const langs = ["fr", "it", "la"];
-  let currentLang = null;
 
+  // Detect current language prefix (or null for English)
+  let currentLang = null;
   for (const l of langs) {
     if (path === `/${l}/` || path.startsWith(`/${l}/`)) {
       currentLang = l;
@@ -19,19 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
   links.forEach(link => {
     const targetLang = link.dataset.lang;
 
-    let newPath = path;
-
+    let newPath;
     if (currentLang) {
-      // replace current language with target
+      // /it/tools/ -> /fr/tools/
       newPath = path.replace(`/${currentLang}/`, `/${targetLang}/`);
     } else {
-      // from English (no prefix)
+      // /tools/ -> /fr/tools/
       newPath = `/${targetLang}${path}`;
     }
 
-    // Normalize double slashes
     newPath = newPath.replace(/\/{2,}/g, "/");
-
     link.setAttribute("href", newPath);
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", rewriteLangLinks);
+document.addEventListener("partials:loaded", rewriteLangLinks);
