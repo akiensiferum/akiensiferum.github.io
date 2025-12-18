@@ -152,6 +152,15 @@ hr {
   border-top: 1px solid var(--border);
   margin: 22px 0;
 }
+.page-header {
+  margin-bottom: 26px;
+}
+
+.page-header .subtitle {
+  color: var(--muted);
+  max-width: 70ch;
+}
+
 
 /* ---------- Footer ---------- */
 .site-footer {
