@@ -123,6 +123,29 @@ h1 { font-size: 2.0rem; line-height: 1.15; margin: 0 0 10px; }
 h2 { font-size: 1.35rem; margin: 26px 0 10px; }
 p { margin: 0 0 12px; color: var(--text); }
 .muted { color: var(--muted); }
+/* Typography scale */
+h1 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.6em;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+}
+
+p {
+  max-width: 65ch;
+  margin-bottom: 1em;
+}
 
 hr {
   border: none;
