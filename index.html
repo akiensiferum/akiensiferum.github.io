@@ -1,47 +1,185 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/assets/css/site.css">
-<script src="/assets/js/theme.js"></script>
-  <meta charset="UTF-8" />
-  <title>Acius</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acius Exio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/home-prototype.css" />
 </head>
-<body>
-  <div data-include="/partials/nav.en.html"></div>
+<body data-theme="day">
+  <main class="wrap">
+    <header class="hero">
+      <p class="kicker">hi! i am</p>
+      <h1 class="name">Acius Exio</h1>
+      <p class="subtitle">archaeology · spatial analysis · digital tools (Spica)</p>
+      <nav class="langswitch" aria-label="Language switch">
+        <a class="langbtn" href="index.html" aria-current="page">EN</a>
+        <a class="langbtn" href="fr/">FR</a>
+        <a class="langbtn" href="it/">IT</a>
+        <a class="langbtn" href="la/">LA</a>
+        <button class="langbtn" type="button" data-theme-toggle aria-label="Toggle theme">☼/☾</button>
+      </nav>
 
-<main class="container">
-<h1>Acius</h1>
+      <nav class="nav" aria-label="Homepage panels">
+        <button class="navbtn" type="button" data-open="about">about</button>
+        <button class="navbtn" type="button" data-open="work">work</button>
+        <button class="navbtn" type="button" data-open="spica">spica</button>
+        <button class="navbtn" type="button" data-open="writing">writing</button>
+        <button class="navbtn" type="button" data-open="contact">contact</button>
+      </nav>
+    </header>
 
-<p>
-  Archaeologist working with digital and spatial methods
-</p>
+    <section class="panel" id="about" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Close panel">&times;</button>
+        <h2>About</h2>
+        <div class="rule"></div>
+        <p>
+          Archaeologist working on spatial deposition, abandonment dynamics,
+          and digital method design for research and teaching contexts.
+        </p>
+        <ul class="bullets">
+          <li>Fieldwork contexts: caves, fortified hills, medieval and post-medieval sites</li>
+          <li>Focus: spatial interpretation, stratigraphic integration, reproducible workflows</li>
+          <li>Languages: FR / EN / IT</li>
+        </ul>
+      </div>
+    </section>
 
-<p class="muted">
-  This website presents research activities, tools, and experimental projects,
-  including <a href="/tools/spica/">Spica</a>, a lightweight web tool for
-  archaeological spatial analysis
-</p>
+    <section class="panel" id="work" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Close panel">&times;</button>
+        <h2>Work</h2>
+        <div class="rule"></div>
 
+        <div class="cardList">
+          <a class="card" href="research/">
+            <div class="cardTitle">Research</div>
+            <div class="cardMeta">spatial distribution · archaeological interpretation</div>
+          </a>
+          <a class="card" href="portfolio/">
+            <div class="cardTitle">Portfolio</div>
+            <div class="cardMeta">selected projects · field and digital work</div>
+          </a>
+        </div>
+      </div>
+    </section>
 
-<hr>
+    <section class="panel" id="spica" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Close panel">&times;</button>
+        <h2>Spica</h2>
+        <div class="rule"></div>
+        <p>A lightweight toolset for archaeological spatial and point cloud exploration.</p>
+        <ul class="bullets">
+          <li>CSV to interactive 3D point cloud views</li>
+          <li>Layered context exploration and analytical overlays</li>
+          <li>Export-ready outputs for reports and publications</li>
+        </ul>
+        <p><a class="link" href="tools/spica/">Open Spica</a></p>
+      </div>
+    </section>
 
-<section>
-  <h2>Acius</h2>
-  <p>MA in Archaeology- Digital &amp; Spatial Analysis</p>
-   <p>
-      Personal website under construction.<br />
-      Research, tools (including Spica), and selected work will be available soon.
-    </p>
-</section>
-</main>
+    <section class="panel" id="writing" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Close panel">&times;</button>
+        <h2>Writing</h2>
+        <div class="rule"></div>
+        <ul class="bullets">
+          <li><a class="link" href="blog/">Blog index</a></li>
+          <li><a class="link" href="research/">Methods and research notes</a></li>
+        </ul>
+      </div>
+    </section>
 
-<div data-include="/partials/footer.html"></div>
+    <section class="panel" id="contact" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Close panel">&times;</button>
+        <h2>Contact</h2>
+        <div class="rule"></div>
+        <p>Email is best.</p>
+        <p><a class="link" href="mailto:acius.exio@outlook.com">acius.exio@outlook.com</a></p>
+      </div>
+    </section>
 
-<script src="/assets/js/include.js"></script>
-  
-  <main>
+    <footer class="footer">
+      <p>© <span id="year"></span> Acius Exio</p>
+      <p class="footerLinks">
+        <a href="tools/">Tools</a>
+        <a href="about/">About</a>
+        <a href="contact/">Contact</a>
+      </p>
+    </footer>
   </main>
+
+  <script>
+    (function(){
+      const KEY = "siteTheme";
+      const saved = localStorage.getItem(KEY);
+      document.body.setAttribute("data-theme", saved || "day");
+
+      const btn = document.querySelector("[data-theme-toggle]");
+      if (btn){
+        btn.addEventListener("click", () => {
+          const cur = document.body.getAttribute("data-theme") || "day";
+          const next = (cur === "night") ? "day" : "night";
+          document.body.setAttribute("data-theme", next);
+          localStorage.setItem(KEY, next);
+        });
+      }
+    })();
+
+    const panels = Array.from(document.querySelectorAll(".panel"));
+
+    const closeAll = () => {
+      panels.forEach((panel) => {
+        panel.classList.remove("isOpen");
+        panel.setAttribute("aria-hidden", "true");
+      });
+      document.body.classList.remove("panelOpen");
+    };
+
+    const openPanel = (id) => {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      closeAll();
+      panel.classList.add("isOpen");
+      panel.setAttribute("aria-hidden", "false");
+      document.body.classList.add("panelOpen");
+    };
+
+    document.addEventListener("click", (event) => {
+      const openBtn = event.target.closest("[data-open]");
+      const closeBtn = event.target.closest("[data-close]");
+
+      if (openBtn) {
+        openPanel(openBtn.getAttribute("data-open"));
+        return;
+      }
+
+      if (closeBtn) {
+        closeAll();
+        return;
+      }
+
+      if (event.target.classList.contains("panel")) {
+        closeAll();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeAll();
+      }
+    });
+
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+  </script>
 </body>
 </html>
-

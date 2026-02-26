@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>À venir — Acius</title>
-
+  <title>Outils - Acius</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Outils numeriques et prototypes web pour la recherche archeologique, dont Spica.">
   <script src="/assets/js/theme.js"></script>
   <link rel="stylesheet" href="/assets/css/site.css">
 </head>
@@ -12,19 +13,116 @@
   <div data-include="/partials/nav.fr.html"></div>
 
   <main class="container">
-    <h1>Page title</h1>
-<p class="muted">Optional subtitle / context</p>
+    <div class="page-header">
+      <h1>Outils</h1>
+      <p class="subtitle">
+        Applications numeriques et prototypes web pour la recherche archeologique.
+      </p>
+    </div>
 
-<hr>
+    <section class="registry-intro" aria-label="Apercu du registre des outils">
+      <p class="registry-intro__lead">
+        Outils legers orientes recherche pour l'analyse spatiale archeologique et les methodes numeriques.
+      </p>
 
-<section>
-  <h2>Section title</h2>
-  <p>Content…</p>
-</section>
+      <div class="registry-summary" role="note" aria-label="Resume du registre">
+        <span class="registry-summary__item"><strong>Stable:</strong> <span data-registry-count="stable">0</span></span>
+        <span class="registry-summary__item"><strong>Beta:</strong> <span data-registry-count="beta">0</span></span>
+        <span class="registry-summary__item"><strong>Prototype:</strong> <span data-registry-count="prototype">0</span></span>
+        <span class="registry-summary__item"><strong>Archive:</strong> <span data-registry-count="archived">0</span></span>
+        <span class="registry-summary__item"><strong>Derniere mise a jour:</strong> <span data-registry-updated>2026-02-26</span></span>
+      </div>
+    </section>
 
+    <section class="registry-philosophy" aria-label="Philosophie des outils">
+      <h2>Philosophie des outils</h2>
+      <p>
+        Ces outils sont concus comme des instruments de recherche legers, bases navigateur.
+        La priorite est donnee a la clarte methodologique, la reproductibilite et le partage accessible.
+      </p>
+    </section>
+
+    <h2>Disponibles</h2>
+    <p class="section-lead">Outils stables prets pour l'usage et le partage.</p>
+    <div class="tool-grid" role="list">
+      <section class="tool-card" aria-labelledby="tool-spica-fr-title">
+        <header class="tool-card__header">
+          <h3 class="tool-card__title" id="tool-spica-fr-title">Spica</h3>
+          <span class="status-badge status-badge--stable" title="Statut de version: Stable">Stable</span>
+        </header>
+
+        <p class="tool-card__lead">
+          Outil web 3D pour l'analyse spatiale de jeux de donnees archeologiques.
+        </p>
+
+        <dl class="tool-card__io">
+          <div class="tool-card__io-row">
+            <dt>Entree</dt><dd>Jeux de donnees CSV</dd>
+          </div>
+          <div class="tool-card__io-row">
+            <dt>Sortie</dt><dd>Exploration visuelle interactive dans le navigateur</dd>
+          </div>
+        </dl>
+
+        <ul class="tool-tags" aria-label="Tags">
+          <li class="tool-tag">Archeologie</li>
+          <li class="tool-tag">Analyse spatiale</li>
+          <li class="tool-tag">Nuage de points</li>
+          <li class="tool-tag">Application web</li>
+        </ul>
+
+        <div class="tool-actions" role="group" aria-label="Liens de l'outil">
+          <a class="btn btn--primary" href="/tools/spica/">Ouvrir la page outil</a>
+          <a class="btn btn--secondary" href="https://github.com/akiensiferum/spica-dist/releases/latest">Derniere version</a>
+        </div>
+      </section>
+    </div>
+
+    <h2>En developpement</h2>
+    <p class="section-lead">Prototypes actifs; interfaces et resultats peuvent changer.</p>
+    <div class="tool-grid" role="list"></div>
+
+    <h2>Planifies</h2>
+    <p class="section-lead">Concepts et outils a venir.</p>
+    <ul class="planned-list">
+      <li>Nom de l'outil et badge de statut (stable, beta, prototype, archive).</li>
+      <li>Description courte de l'objectif et du perimetre.</li>
+      <li>Resume entree/sortie.</li>
+      <li>Tags (domaine + methode).</li>
+      <li>Lien principal vers la page outil et lien secondaire optionnel (release/doc).</li>
+    </ul>
   </main>
 
   <div data-include="/partials/footer.html"></div>
   <script src="/assets/js/include.js"></script>
+  <script>
+    (function () {
+      function updateRegistrySummary() {
+        const root = document;
+        const stable = root.querySelectorAll(".tool-grid .status-badge--stable").length;
+        const beta = root.querySelectorAll(".tool-grid .status-badge--beta").length;
+        let prototype = root.querySelectorAll(".tool-grid .status-badge--prototype").length;
+        const archived = root.querySelectorAll(".tool-grid .status-badge--archived").length;
+
+        root.querySelectorAll(".tool-grid .tool-card").forEach((card) => {
+          if (!card.querySelector(".status-badge")) {
+            prototype += 1;
+          }
+        });
+
+        const counts = { stable, beta, prototype, archived };
+        Object.entries(counts).forEach(([key, value]) => {
+          const el = root.querySelector(`[data-registry-count="${key}"]`);
+          if (el) el.textContent = String(value);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateRegistrySummary);
+      } else {
+        updateRegistrySummary();
+      }
+    })();
+  </script>
 </body>
 </html>

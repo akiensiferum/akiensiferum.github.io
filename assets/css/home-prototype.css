@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --radius: 14px;
+  --shadow: 0 16px 44px rgba(0, 0, 0, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+/* defaults = DAY */
+body {
+  --bg: #F0FFFB;
+  --text: #0e1a1f;
+  --muted: #4B8C92;
+  --accent: #66CDAA;
+  --border: rgba(75, 140, 146, .18);
+  --panel-bg: rgba(255, 255, 255, .72);
+  --line: rgba(75, 140, 146, .22);
+  --line-strong: rgba(75, 140, 146, .34);
+  --band-h: 22vh;
+  --band: color-mix(in srgb, var(--accent) 35%, white);
+
+  background: var(--bg);
+  color: var(--text);
+  background-image: none !important;
+  font-family: "EB Garamond", Garamond, "Adobe Garamond Pro", "Cormorant Garamond", serif;
+  line-height: 1.68;
+}
+
+/* bottom band */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--band-h);
+  background: var(--band);
+  z-index: -1;
+}
+
+/* NIGHT theme: keep current dark look */
+body[data-theme="night"] {
+  --bg: #071014;
+  --text: #E6F2FD;
+  --muted: rgba(230, 242, 253, .72);
+  --accent: #66CDAA;
+  --border: rgba(102, 205, 170, .18);
+  --panel-bg: rgba(10, 20, 24, .72);
+  --line: rgba(102, 205, 170, .22);
+  --line-strong: rgba(102, 205, 170, .36);
+  --band: transparent;
+  --shadow: 0 16px 44px rgba(0, 0, 0, 0.42);
+
+  background: radial-gradient(1200px 700px at 18% 10%, rgba(31, 198, 218, .10), transparent 60%),
+              linear-gradient(180deg, #061014, #050b0e);
+  background-attachment: fixed;
+}
+
+body.panelOpen {
+  overflow: hidden;
+}
+
+.wrap {
+  width: min(1100px, calc(100% - 52px));
+  margin: 0 auto;
+  padding: clamp(68px, 11vh, 140px) 0 42px;
+  position: relative;
+}
+
+.hero {
+  margin: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.84rem;
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+}
+
+.name {
+  margin: 0;
+  color: color-mix(in srgb, var(--accent) 55%, var(--text));
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: 0.01em;
+}
+
+.subtitle, .kicker {
+  color: var(--muted);
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  font-size: clamp(1.04rem, 2.5vw, 1.2rem);
+  max-width: 56ch;
+}
+
+.langswitch {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.navbtn,
+.langbtn {
+  appearance: none;
+  background: color-mix(in srgb, white 55%, transparent);
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  text-transform: lowercase;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.langbtn {
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  padding: 6px 11px;
+}
+
+.langbtn[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--accent) 66%, var(--border));
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+body[data-theme="night"] .navbtn,
+body[data-theme="night"] .langbtn {
+  background: rgba(255, 255, 255, .06);
+}
+
+.navbtn:hover,
+.langbtn:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 56%, var(--border));
+}
+
+.panel {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(15, 30, 34, .10);
+  backdrop-filter: blur(2px);
+  z-index: 20;
+}
+
+body[data-theme="night"] .panel {
+  background: rgba(0, 0, 0, .28);
+}
+
+.panel.isOpen {
+  display: flex;
+}
+
+.panelCard {
+  width: min(760px, 100%);
+  max-height: min(82vh, 920px);
+  overflow: auto;
+  position: relative;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .72);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+body[data-theme="night"] .panelCard {
+  background: rgba(10, 20, 24, .72);
+}
+
+.panelCard h2 {
+  margin: 0;
+  color: color-mix(in srgb, var(--accent) 50%, var(--text));
+  font-size: clamp(1.86rem, 4.3vw, 2.16rem);
+  line-height: 1.06;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--panel-bg) 82%, transparent);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rule {
+  margin: 12px 0 14px;
+  height: 1px;
+  background: var(--line);
+}
+
+.bullets {
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+.bullets li + li {
+  margin-top: 6px;
+}
+
+.cardList {
+  display: grid;
+  gap: 10px;
+}
+
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: color-mix(in srgb, var(--panel-bg) 80%, transparent);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+}
+
+.cardTitle {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 600;
+}
+
+.cardMeta {
+  color: var(--muted);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+  margin-top: 3px;
+}
+
+.link {
+  color: color-mix(in srgb, var(--accent) 62%, var(--text));
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer .footerLinks,
+.footer .rightLinks,
+.footer nav {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    width: min(1100px, calc(100% - 28px));
+    padding-top: 44px;
+  }
+
+  .nav {
+    margin-top: 20px;
+    gap: 8px;
+  }
+
+  .navbtn {
+    padding: 7px 12px;
+    font-size: 0.91rem;
+  }
+
+  .panelCard {
+    padding: 18px;
+  }
+}
+
+/* ========== THEME SYSTEM (authoritative) ========== */
+
+/* Base: always derive colors from variables */
+body{
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Bottom band always uses --band (night can set it transparent/subtle) */
+body::after{
+  content:"";
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: var(--band-h);
+  background: var(--band);
+  z-index: -1;
+}
+
+/* DAY defaults */
+body:not([data-theme]),
+body[data-theme="day"]{
+  --bg: #F0FFFB;
+  --text: #0e1a1f;
+  --muted: #4B8C92;
+
+  --accent: #66CDAA;
+  --border: rgba(75,140,146,.20);
+
+  --band-h: 22vh;
+  --band: color-mix(in srgb, var(--accent) 35%, white);
+
+  /* important: no dark gradients in day */
+  background-image: none !important;
+}
+
+/* NIGHT */
+body[data-theme="night"]{
+  --bg: #071014;
+  --text: #E6F2FD;                 /* readable on dark */
+  --muted: rgba(230,242,253,.75);
+
+  --accent: #66CDAA;
+  --border: rgba(102,205,170,.22);
+
+  --band-h: 0vh;                   /* remove band in night (or set 10vh if you want) */
+  --band: transparent;
+
+  background: radial-gradient(1200px 700px at 18% 10%, rgba(31,198,218,.10), transparent 60%),
+              linear-gradient(180deg, #061014, #050b0e) !important;
+  background-attachment: fixed;
+}
+
+/* Make sure all text uses variables (prevents “washed out”) */
+.kicker, .subtitle, .footer{
+  color: var(--muted) !important;
+}
+
+.name{
+  color: color-mix(in srgb, var(--accent) 55%, var(--text)) !important;
+}
+
+/* Buttons */
+.navbtn, .langbtn, button{
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+
+body[data-theme="day"] .navbtn,
+body[data-theme="day"] .langbtn{
+  background: rgba(255,255,255,.55) !important;
+}
+
+body[data-theme="night"] .navbtn,
+body[data-theme="night"] .langbtn{
+  background: rgba(255,255,255,.06) !important;
+}
+
+/* Panels */
+.panel{
+  background: rgba(0,0,0,.18) !important; /* default */
+}
+body[data-theme="day"] .panel{
+  background: rgba(15,30,34,.10) !important;
+}
+body[data-theme="night"] .panel{
+  background: rgba(0,0,0,.32) !important;
+}
+
+.panelCard{
+  border: 1px solid var(--border) !important;
+}
+body[data-theme="day"] .panelCard{
+  background: rgba(255,255,255,.78) !important;
+}
+body[data-theme="night"] .panelCard{
+  background: rgba(10,20,24,.78) !important;
+  color: var(--text) !important;
+}

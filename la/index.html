@@ -1,48 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="la">
 <head>
-  <link rel="stylesheet" href="/assets/css/site.css">
-<script src="/assets/js/theme.js"></script>
-  <meta charset="UTF-8" />
-  <title>ACIVS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acius Exio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/home-prototype.css" />
 </head>
-<body>
-  <div data-include="/partials/nav.la.html"></div>
+<body data-theme="day">
+  <main class="wrap">
+    <header class="hero">
+      <p class="kicker">salve, ego sum</p>
+      <h1 class="name">Acius Exio</h1>
+      <p class="subtitle">archaeologia · analysisis spatialis · instrumenta digitalia (Spica)</p>
+      <nav class="langswitch" aria-label="Mutatio linguae">
+        <a class="langbtn" href="../">EN</a>
+        <a class="langbtn" href="../fr/">FR</a>
+        <a class="langbtn" href="../it/">IT</a>
+        <a class="langbtn" href="./" aria-current="page">LA</a>
+        <button class="langbtn" type="button" data-theme-toggle aria-label="Commuta modum diei/noctis">☼/☾</button>
+      </nav>
 
-<main class="container">
-  <h1>Page title</h1>
-<p class="muted">Optional subtitle / context</p>
+      <nav class="nav" aria-label="Tabulae initiales">
+        <button class="navbtn" type="button" data-open="about">de me</button>
+        <button class="navbtn" type="button" data-open="work">opera</button>
+        <button class="navbtn" type="button" data-open="spica">spica</button>
+        <button class="navbtn" type="button" data-open="writing">scripta</button>
+        <button class="navbtn" type="button" data-open="contact">contactus</button>
+      </nav>
+    </header>
 
-<hr>
+    <section class="panel" id="about" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Claude">&times;</button>
+        <h2>De me</h2>
+        <div class="rule"></div>
+        <p>
+          Archaeologus operans de depositione spatiali, processibus desertionis,
+          et consilio methodorum digitalium ad investigationem.
+        </p>
+        <ul class="bullets">
+          <li>Contextus campi: spelaea, loca munita, tempora mediaevalia et post-mediaevalia</li>
+          <li>Studia: interpretatio spatialis, integratio stratigraphica, processus reproducibiles</li>
+          <li>Linguae: FR / EN / IT</li>
+        </ul>
+      </div>
+    </section>
 
-<section>
-  <h2>Section title</h2>
-  <p>Content…</p>
-</section>
+    <section class="panel" id="work" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Claude">&times;</button>
+        <h2>Opera</h2>
+        <div class="rule"></div>
+        <div class="cardList">
+          <a class="card" href="research/">
+            <div class="cardTitle">Investigatio</div>
+            <div class="cardMeta">distributio spatialis · interpretatio archaeologica</div>
+          </a>
+          <a class="card" href="portfolio/">
+            <div class="cardTitle">Portifolium</div>
+            <div class="cardMeta">opera selecta · campus et instrumenta digitalia</div>
+          </a>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <section class="panel" id="spica" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Claude">&times;</button>
+        <h2>Spica</h2>
+        <div class="rule"></div>
+        <p>Instrumentum leve ad explorationem spatialem et nubium punctorum archaeologicorum.</p>
+        <ul class="bullets">
+          <li>CSV ad visualizationem 3D interactivam</li>
+          <li>Exploratio per ordines contextuales et analyticos</li>
+          <li>Exportationes ad relationes et publicationes</li>
+        </ul>
+        <p><a class="link" href="../tools/spica/">Aperi Spica</a></p>
+      </div>
+    </section>
 
-<div data-include="/partials/footer.html"></div>
+    <section class="panel" id="writing" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Claude">&times;</button>
+        <h2>Scripta</h2>
+        <div class="rule"></div>
+        <ul class="bullets">
+          <li><a class="link" href="blog/">Index commentariorum</a></li>
+          <li><a class="link" href="research/">Notationes methodicae et investigationis</a></li>
+        </ul>
+      </div>
+    </section>
 
-<script src="/assets/js/include.js"></script>
+    <section class="panel" id="contact" aria-hidden="true">
+      <div class="panelCard">
+        <button class="close" type="button" data-close aria-label="Claude">&times;</button>
+        <h2>Contactus</h2>
+        <div class="rule"></div>
+        <p>Via electronica optima est.</p>
+        <p><a class="link" href="mailto:acius.exio@outlook.com">acius.exio@outlook.com</a></p>
+      </div>
+    </section>
 
-  
-  <main>
-    <h1>ACIVS EXIO</h1>
-    <p>ARCHÆOLOGIÆ MAGISTER<br />
-      <p>ANALYSI DIGITALI ET SPATIALI</p>
-
-    <p>
-      SALVETE OMNES<br />
-      <p>BENE VENISTIS IN PAGINAM MEAM</p>
-      QVÆ ADHVC CONFICITVR ATQVE BREVI TEMPORE PATEBIT
-    <p>ACIO EXIO</p>
-    </p>
-
-    <p>
-      Contact: <a href="mailto:acius.exio@outlook.com">acius.exio@outlook.com</a>
-    </p>
+    <footer class="footer">
+      <p>© <span id="year"></span> Acius Exio</p>
+      <p class="footerLinks">
+        <a href="tools/">Instrumenta</a>
+        <a href="about/">De me</a>
+        <a href="contact/">Contactus</a>
+      </p>
+    </footer>
   </main>
+
+  <script>
+    (function(){
+      const KEY = "siteTheme";
+      const saved = localStorage.getItem(KEY);
+      document.body.setAttribute("data-theme", saved || "day");
+
+      const btn = document.querySelector("[data-theme-toggle]");
+      if (btn){
+        btn.addEventListener("click", () => {
+          const cur = document.body.getAttribute("data-theme") || "day";
+          const next = (cur === "night") ? "day" : "night";
+          document.body.setAttribute("data-theme", next);
+          localStorage.setItem(KEY, next);
+        });
+      }
+    })();
+
+    const panels = Array.from(document.querySelectorAll(".panel"));
+
+    const closeAll = () => {
+      panels.forEach((panel) => {
+        panel.classList.remove("isOpen");
+        panel.setAttribute("aria-hidden", "true");
+      });
+      document.body.classList.remove("panelOpen");
+    };
+
+    const openPanel = (id) => {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      closeAll();
+      panel.classList.add("isOpen");
+      panel.setAttribute("aria-hidden", "false");
+      document.body.classList.add("panelOpen");
+    };
+
+    document.addEventListener("click", (event) => {
+      const openBtn = event.target.closest("[data-open]");
+      const closeBtn = event.target.closest("[data-close]");
+
+      if (openBtn) {
+        openPanel(openBtn.getAttribute("data-open"));
+        return;
+      }
+
+      if (closeBtn) {
+        closeAll();
+        return;
+      }
+
+      if (event.target.classList.contains("panel")) {
+        closeAll();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeAll();
+      }
+    });
+
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+  </script>
 </body>
 </html>

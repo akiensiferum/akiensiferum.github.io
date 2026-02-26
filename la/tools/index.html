@@ -2,8 +2,9 @@
 <html lang="la">
 <head>
   <meta charset="utf-8">
-  <title>MOX PRÆSTO— ACIVS</title>
-
+  <title>Instrumenta - Acivs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Instrumenta digitalia et exemplaria web ad investigationem archaeologicam, inter quae Spica.">
   <script src="/assets/js/theme.js"></script>
   <link rel="stylesheet" href="/assets/css/site.css">
 </head>
@@ -12,19 +13,116 @@
   <div data-include="/partials/nav.la.html"></div>
 
   <main class="container">
-   <h1>Page title</h1>
-<p class="muted">Optional subtitle / context</p>
+    <div class="page-header">
+      <h1>Instrumenta</h1>
+      <p class="subtitle">
+        Instrumenta digitalia et exemplaria web ad investigationem archaeologicam.
+      </p>
+    </div>
 
-<hr>
+    <section class="registry-intro" aria-label="Conspectus registri instrumentorum">
+      <p class="registry-intro__lead">
+        Instrumenta levia ad investigationem adhibita pro analysi spatiali archaeologica et methodis digitalibus.
+      </p>
 
-<section>
-  <h2>Section title</h2>
-  <p>Content…</p>
-</section>
+      <div class="registry-summary" role="note" aria-label="Compendium registri">
+        <span class="registry-summary__item"><strong>Stabile:</strong> <span data-registry-count="stable">0</span></span>
+        <span class="registry-summary__item"><strong>Beta:</strong> <span data-registry-count="beta">0</span></span>
+        <span class="registry-summary__item"><strong>Prototype:</strong> <span data-registry-count="prototype">0</span></span>
+        <span class="registry-summary__item"><strong>Archived:</strong> <span data-registry-count="archived">0</span></span>
+        <span class="registry-summary__item"><strong>Renovatum:</strong> <span data-registry-updated>2026-02-26</span></span>
+      </div>
+    </section>
 
+    <section class="registry-philosophy" aria-label="Philosophia instrumentorum">
+      <h2>Philosophia instrumentorum</h2>
+      <p>
+        Haec instrumenta ut instrumenta investigationis levia in navigatro destinantur.
+        Prioritas datur claritati methodologicae, reproducibilitati, et communicationi facili.
+      </p>
+    </section>
+
+    <h2>Praesto</h2>
+    <p class="section-lead">Instrumenta stabilia ad usum et communicationem parata.</p>
+    <div class="tool-grid" role="list">
+      <section class="tool-card" aria-labelledby="tool-spica-la-title">
+        <header class="tool-card__header">
+          <h3 class="tool-card__title" id="tool-spica-la-title">Spica</h3>
+          <span class="status-badge status-badge--stable" title="Status editionis: Stabilis">Stabilis</span>
+        </header>
+
+        <p class="tool-card__lead">
+          Instrumentum 3D in navigatro ad analysisin spatialem datorum archaeologicorum.
+        </p>
+
+        <dl class="tool-card__io">
+          <div class="tool-card__io-row">
+            <dt>Input</dt><dd>Data CSV</dd>
+          </div>
+          <div class="tool-card__io-row">
+            <dt>Output</dt><dd>Inspectio visualis interactiva in navigatro</dd>
+          </div>
+        </dl>
+
+        <ul class="tool-tags" aria-label="Signa">
+          <li class="tool-tag">Archaeologia</li>
+          <li class="tool-tag">Analysisis spatialis</li>
+          <li class="tool-tag">Nubes punctorum</li>
+          <li class="tool-tag">Applicatio web</li>
+        </ul>
+
+        <div class="tool-actions" role="group" aria-label="Nexus instrumenti">
+          <a class="btn btn--primary" href="/tools/spica/">Aperi paginam instrumenti</a>
+          <a class="btn btn--secondary" href="https://github.com/akiensiferum/spica-dist/releases/latest">Postrema versio</a>
+        </div>
+      </section>
+    </div>
+
+    <h2>In progressu</h2>
+    <p class="section-lead">Prototypa activa; formae et exitus mutari possunt.</p>
+    <div class="tool-grid" role="list"></div>
+
+    <h2>Consiliata</h2>
+    <p class="section-lead">Concepta et instrumenta futura.</p>
+    <ul class="planned-list">
+      <li>Nomen instrumenti et nota status (stable, beta, prototype, archived).</li>
+      <li>Brevis descriptio propositi et ambitus.</li>
+      <li>Compendium input/output.</li>
+      <li>Signa (campus + methodus).</li>
+      <li>Nexus principalis ad paginam instrumenti et nexus secundarius optionalis (release/doc).</li>
+    </ul>
   </main>
 
   <div data-include="/partials/footer.html"></div>
   <script src="/assets/js/include.js"></script>
+  <script>
+    (function () {
+      function updateRegistrySummary() {
+        const root = document;
+        const stable = root.querySelectorAll(".tool-grid .status-badge--stable").length;
+        const beta = root.querySelectorAll(".tool-grid .status-badge--beta").length;
+        let prototype = root.querySelectorAll(".tool-grid .status-badge--prototype").length;
+        const archived = root.querySelectorAll(".tool-grid .status-badge--archived").length;
+
+        root.querySelectorAll(".tool-grid .tool-card").forEach((card) => {
+          if (!card.querySelector(".status-badge")) {
+            prototype += 1;
+          }
+        });
+
+        const counts = { stable, beta, prototype, archived };
+        Object.entries(counts).forEach(([key, value]) => {
+          const el = root.querySelector(`[data-registry-count="${key}"]`);
+          if (el) el.textContent = String(value);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateRegistrySummary);
+      } else {
+        updateRegistrySummary();
+      }
+    })();
+  </script>
 </body>
 </html>
