@@ -438,20 +438,6 @@ hr {
   gap: var(--space-2);
 }
 
-.tool-card__feature-list {
-  margin: 0 0 var(--space-3) 1.1rem;
-  padding: 0;
-}
-
-.tool-card__feature-list li {
-  margin: 0 0 0.35rem;
-}
-
-.tool-card__version-note {
-  margin: 0 0 var(--space-3) 0;
-  color: var(--color-text-muted);
-}
-
 /* legacy list-item fallback */
 .tool-tags li {
   border: 1px solid color-mix(in srgb, var(--color-text-main) 12%, transparent);
