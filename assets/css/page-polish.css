@@ -1,0 +1,76 @@
+/* Shared airy layout for simple inner pages */
+
+.simple-page {
+  max-width: 900px;
+  padding-top: clamp(34px, 6vw, 76px);
+  padding-bottom: clamp(56px, 8vw, 96px);
+}
+
+.simple-page h1 {
+  margin-bottom: var(--space-2);
+}
+
+.simple-page > .muted:first-of-type {
+  max-width: 54ch;
+  margin-bottom: clamp(28px, 5vw, 50px);
+  font-size: clamp(18px, 0.55vw + 16px, 21px);
+  line-height: 1.55;
+}
+
+.simple-page > hr:first-of-type {
+  display: none;
+}
+
+.simple-grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.simple-card {
+  max-width: none;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid color-mix(in srgb, var(--color-text-main) 10%, transparent);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--panel) 74%, transparent);
+  box-shadow: 0 18px 45px color-mix(in srgb, var(--color-text-main) 7%, transparent);
+}
+
+.simple-card h2,
+.simple-card h3 {
+  margin-top: 0;
+  color: var(--color-text-heading);
+}
+
+.simple-card p:last-child,
+.simple-card ul:last-child {
+  margin-bottom: 0;
+}
+
+.simple-card ul {
+  margin: var(--space-2) 0 0;
+  padding-left: 1.15rem;
+}
+
+.simple-card li {
+  margin-bottom: var(--space-1);
+}
+
+.simple-card .quiet-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 760px) {
+  .simple-grid.two {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .simple-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+}
