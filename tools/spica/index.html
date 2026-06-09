@@ -2,95 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Spica — Archaeological 3D spatial and point cloud visualisation tool</title>
-
+  <title>Spica - Archaeological 3D spatial visualisation tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Spica is a lightweight web-based tool for archaeological 3D spatial and point cloud visualisation, designed to explore stratigraphic and spatial datasets without complex GIS software.">
-
-
+  <meta name="description" content="Spica is a lightweight web-based tool for archaeological 3D spatial visualisation, designed to explore stratigraphic and spatial datasets without complex GIS software.">
   <script src="/assets/js/theme.js"></script>
   <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/page-polish.css">
 </head>
-
 <body>
   <div data-include="/partials/nav.en.html"></div>
 
-  <main class="container">
+  <main class="container simple-page">
+    <h1>Spica</h1>
+    <p class="muted">A lightweight local web tool for archaeological 3D spatial visualisation and exploratory point-cloud reading.</p>
 
-    <div class="page-header">
-      <h1>Spica</h1>
-      <p class="subtitle">
-        A lightweight web-based tool for spatial and point cloud visualisation
-      </p>
-    </div>
+    <section class="simple-grid two">
+      <article class="simple-card">
+        <h2>What is Spica?</h2>
+        <p>
+          Spica is a browser-based tool designed to explore archaeological datasets through spatial visualisation, filtering, and simple analytical layers.
+        </p>
+        <p>
+          It was developed for research and teaching contexts, with a focus on transparency, portability, and ease of use.
+        </p>
+      </article>
 
-    <hr>
+      <article class="simple-card">
+        <h2>What problem does it address?</h2>
+        <p>
+          Archaeological datasets often combine coordinates, stratigraphic units, object categories, and interpretative groups.
+        </p>
+        <p>
+          Spica offers a practical way to visualise and compare these dimensions without requiring a complex GIS setup.
+        </p>
+      </article>
 
-<section>
-  <h2>What is Spica?</h2>
-  <p>
-    Spica is a browser-based tool designed to explore archaeological datasets
-    through spatial visualisation and simple analytical layers.
-  </p>
-  <p>
-    It was developed primarily for research and teaching contexts,
-    with a focus on transparency, reproducibility, and ease of use.
-  </p>
-</section>
-    <section>
-  <h2>What problem does it address?</h2>
-  <p>
-    Archaeological datasets often combine spatial coordinates,
-    stratigraphic information, and heterogeneous object categories.
-  </p>
-  <p>
-    Spica provides a way to visualise and compare these dimensions
-    without requiring specialised GIS software or complex setup.
-  </p>
-</section>
-    <section>
-  <h2>Main features</h2>
-  <ul>
-    <li>Load CSV-based archaeological datasets</li>
-    <li>Visualise point distributions in plan and section</li>
-    <li>Explore stratigraphic or categorical subsets</li>
-    <li>Overlay simple analytical surfaces (e.g. interpolation)</li>
-  </ul>
-</section>
+      <article class="simple-card">
+        <h2>Main features</h2>
+        <ul>
+          <li>load CSV-based archaeological datasets</li>
+          <li>visualise 3D point distributions</li>
+          <li>filter stratigraphic or categorical subsets</li>
+          <li>draw refit links and interpretative groups</li>
+          <li>overlay simple analytical surfaces</li>
+        </ul>
+      </article>
 
-<section>
-  <h2>Download</h2>
-
-  <p>
-    Spica is distributed as a lightweight standalone web application.
-    No installation is required.
-  </p>
-
-  <p>
-    Download the latest stable version here:
-  </p>
-
-  <p><strong>Spica 2.0</strong> is out.</p>
-<p>
-  <a href="https://github.com/akiensiferum/spica-dist/releases/download/V2.0.0/Spica.2.0.release.zip" target="_blank" rel="noopener">
-    Download Spica 2.0 (GitHub Release)
-  </a>
-</p>
-
-  <p class="muted">
-    Unzip the archive and open <code>index.html</code> in a modern web browser.
-    The application runs locally in your browser and does not require an internet connection.                                                                        
-  </p>
-
-
-  <p class="muted">
-  ← <a href="/tools/">Back to Tools</a>
-</p>
-
-</section>
-
-
-
+      <article class="simple-card">
+        <h2>Download</h2>
+        <p><strong>Spica 2.0</strong> is available as a standalone web application.</p>
+        <p>
+          <a class="quiet-link" href="https://github.com/akiensiferum/spica-dist/releases/download/V2.0.0/Spica.2.0.release.zip" target="_blank" rel="noopener">
+            Download Spica 2.0
+          </a>
+        </p>
+        <p class="muted">
+          Unzip the archive and open <code>index.html</code> in a modern browser. The application runs locally and does not require an internet connection.
+        </p>
+      </article>
+    </section>
   </main>
 
   <div data-include="/partials/footer.html"></div>
