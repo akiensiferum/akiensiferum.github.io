@@ -1,18 +1,31 @@
 // Apply saved theme immediately (runs in <head> — prevents flash)
+const KEY = "siteTheme";
+
+function applyTheme(theme) {
+  const cleanTheme = theme === "night" ? "night" : "day";
+  document.documentElement.setAttribute("data-theme", cleanTheme);
+
+  if (document.body) {
+    document.body.setAttribute("data-theme", cleanTheme);
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme") || "day";
+  const next = current === "night" ? "day" : "night";
+  applyTheme(next);
+  localStorage.setItem(KEY, next);
+}
+
 (function () {
-  const saved = localStorage.getItem("siteTheme");
-  document.documentElement.setAttribute("data-theme", saved || "day");
+  applyTheme(localStorage.getItem(KEY) || "day");
+  window.__toggleTheme = toggleTheme;
 })();
 
-// Wire up the toggle button once DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
-  const KEY = "siteTheme";
-  const btn = document.querySelector("[data-theme-toggle]");
-  if (!btn) return;
-  btn.addEventListener("click", function () {
-    const cur = document.body.getAttribute("data-theme") || "day";
-    const next = cur === "night" ? "day" : "night";
-    document.body.setAttribute("data-theme", next);
-    localStorage.setItem(KEY, next);
+  applyTheme(localStorage.getItem(KEY) || "day");
+
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+    btn.addEventListener("click", toggleTheme);
   });
 });
