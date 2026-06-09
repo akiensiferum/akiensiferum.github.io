@@ -16,8 +16,6 @@
 
 <hr>
 
-<main class="container">
-
   <p class="muted">
     Selected projects in archaeological documentation, digital methods, and research visualisation.
   </p>
@@ -148,7 +146,133 @@
     </article>
   </section>
 </main>
+>>>>>>> origin/main
 
+  <hr>
+
+  <section id="digital-methods">
+    <h2>Digital Methods</h2>
+    <p>
+      My archaeological work has gradually led me toward digital and computational methods.
+      Alongside GIS, photogrammetry, 3D visualisation, and CAD drawing, I have begun developing
+      basic Python workflows for research data exploration, statistical graphics, and reproducible
+      visual outputs.
+    </p>
+    <p>
+      These projects are not presented as software engineering work, but as practical research tools:
+      transforming bibliographic metadata, archaeological field records, or measured section data
+      into readable graphics that can support historical and archaeological interpretation.
+    </p>
+
+    <article>
+      <h3>Bibliographic data mining for African studies</h3>
+      <p>
+        As part of research assistance for an external African studies project, I experimented with Python
+        workflows for exploring CNRS-related bibliographic metadata on HAL. The aim was to structure
+        a preliminary corpus and produce visual summaries that could help identify chronological
+        trends, thematic categories, and regional distributions.
+      </p>
+
+      <p class="muted">
+        Methods: data mining · metadata cleaning · chronological aggregation · thematic grouping · regional comparison · exploratory visualisation
+      </p>
+      <p class="muted">
+        Tools: Python · pandas · matplotlib · bibliographic metadata
+      </p>
+
+      <figure>
+        <img src="/assets/img/digital-methods/africa_publications_by_year.png" alt="Graph showing publications by year in an Africa studies bibliographic corpus">
+        <figcaption>
+          Publications by year in the Africa corpus. Graph generated from cleaned bibliographic metadata
+          to visualise the chronological growth of the corpus over time.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="/assets/img/digital-methods/africa_themes_by_decade.png" alt="Stacked bar chart showing thematic distribution of an Africa studies corpus by decade">
+        <figcaption>
+          Thematic distribution of the corpus by decade. Stacked bar chart used to compare the changing
+          weight of broad research themes across decades.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="/assets/img/digital-methods/africa_themes_by_region_heatmap.png" alt="Heatmap showing thematic categories by region in an Africa studies corpus">
+        <figcaption>
+          Thematic categories by region. Heatmap comparing research themes across regional categories,
+          offering a synthetic view of topic distribution within the corpus.
+        </figcaption>
+      </figure>
+    </article>
+
+    <article>
+      <h3>Statistical graphics for archaeological interpretation</h3>
+      <p>
+        During my master's research on the burned abandonment layer of a structure at a southern Italian site,
+        I used Python to generate statistical graphics from archaeological field records. These figures
+        supported the comparison of artefact categories, altimetric distributions, and differences between
+        the eastern and western sectors of the structure.
+      </p>
+      <p>
+        Methods such as boxplots, standard deviation, and sliding-window counts helped test observations
+        and make interpretative arguments more explicit. The aim was not to automate archaeological
+        interpretation, but to use simple quantitative tools to clarify patterns within a complex field dataset.
+      </p>
+
+      <p class="muted">
+        Methods: boxplots · standard deviation · sliding-window counts · category comparison · altitude distribution · exploratory graphics
+      </p>
+      <p class="muted">
+        Tools: Python · pandas · matplotlib · archaeological field records · 3D coordinates
+      </p>
+
+      <figure>
+        <img src="../assets/img/digital-methods/Altimetric%20distribution%20of%20selected%20find%20categories.png" alt="Boxplot comparing vertical distribution of archaeological finds by category and sector">
+        <figcaption>
+          Vertical distribution of finds by category and sector. Python-generated boxplot comparing find
+          altitudes according to material category and eastern/western sector.
+        </figcaption>
+      </figure>
+    </article>
+
+    <article>
+      <h3>From field measurements to section drawing</h3>
+      <p>
+        This small workflow was developed to transform measured CSV data from an archaeological section
+        into a scaled visual base. Python was used to read the coordinates, generate axes, place layer
+        boundaries, and produce a first technical drawing. The resulting SVG was then refined manually
+        in Inkscape according to archaeological drawing conventions.
+      </p>
+      <p>
+        The aim was not to replace manual archaeological drawing, but to make the first stage of section
+        plotting more reproducible: the geometry, scale, axes, and coordinates are generated from structured
+        data rather than redrawn by eye.
+      </p>
+
+      <p class="muted">
+        Methods: CSV reading · coordinate plotting · SVG export · scaled axes · layer boundaries · CAD refinement
+      </p>
+      <p class="muted">
+        Tools: Python · pandas · matplotlib/SVG · Inkscape · archaeological section data
+      </p>
+
+      <figure>
+        <img src="../assets/img/digital-methods/section_python_base.svg" alt="Python-generated base drawing of an archaeological section">
+        <figcaption>
+          Python-generated base section. First SVG output generated from CSV measurements, with controlled
+          axes, scale, and layer boundaries.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="/assets/img/digital-methods/section_final_inkscape.png" alt="Final archaeological section drawing refined in Inkscape">
+        <figcaption>
+          Final archaeological section drawing. Refined CAD version produced in Inkscape from the
+          Python-generated base, with improved graphic conventions, labels, and visual hierarchy.
+        </figcaption>
+      </figure>
+    </article>
+  </section>
 </main>
 
 <div data-include="/partials/footer.html"></div>
