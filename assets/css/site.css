@@ -63,6 +63,7 @@
 }
 
 /* Light theme */
+:root[data-theme="day"],
 :root[data-theme="light"] {
   --bg: #f7f8fb;
   --panel: #ffffff;
