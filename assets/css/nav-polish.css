@@ -1,0 +1,78 @@
+/* Softer inner-page navigation polish */
+
+.site-header {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-main) 8%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+}
+
+.navbar {
+  min-height: 68px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.brand a {
+  color: var(--color-text-heading);
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 0.7vw + 19px, 30px);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+
+.brand a:hover {
+  text-decoration: none;
+  color: var(--color-link-hover);
+}
+
+.navlinks {
+  gap: 6px 10px;
+  font-size: var(--fs-small);
+  letter-spacing: 0.025em;
+}
+
+.navlinks a,
+.navlinks .btn {
+  border-radius: 999px;
+}
+
+.navlinks a {
+  padding: 7px 10px;
+  color: color-mix(in srgb, var(--color-text-main) 84%, transparent);
+}
+
+.navlinks a:hover {
+  color: var(--color-text-heading);
+  background: color-mix(in srgb, var(--color-text-main) 4%, transparent);
+  text-decoration: none;
+}
+
+.navlinks a[aria-current="page"] {
+  color: var(--color-text-heading);
+  background: color-mix(in srgb, var(--color-text-heading) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text-heading) 16%, transparent);
+}
+
+.navlinks .muted {
+  opacity: 0.45;
+  padding: 0 2px;
+}
+
+.navlinks .btn {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: var(--fs-small);
+  border-color: color-mix(in srgb, var(--color-text-main) 12%, transparent);
+  background: color-mix(in srgb, var(--color-text-main) 4%, transparent);
+}
+
+@media (max-width: 760px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navlinks {
+    justify-content: flex-start;
+  }
+}
