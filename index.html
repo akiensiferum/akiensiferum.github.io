@@ -119,21 +119,7 @@
   </main>
 
   <script>
-    (function(){
-      const KEY = "siteTheme";
-      const saved = localStorage.getItem(KEY);
-      document.body.setAttribute("data-theme", saved || "day");
-
-      const btn = document.querySelector("[data-theme-toggle]");
-      if (btn){
-        btn.addEventListener("click", () => {
-          const cur = document.body.getAttribute("data-theme") || "day";
-          const next = (cur === "night") ? "day" : "night";
-          document.body.setAttribute("data-theme", next);
-          localStorage.setItem(KEY, next);
-        });
-      }
-    })();
+    
 
     const panels = Array.from(document.querySelectorAll(".panel"));
 

@@ -1,23 +1,18 @@
-// assets/js/theme.js
+// Apply saved theme immediately (runs in <head> — prevents flash)
 (function () {
-  const key = "acius-theme"; // "dark" | "light"
-  const saved = localStorage.getItem(key);
-
-  function apply(mode) {
-    document.documentElement.setAttribute("data-theme", mode);
-  }
-
-  if (saved === "dark" || saved === "light") {
-    apply(saved);
-  } else {
-    // default: dark (but respect OS if you prefer by flipping this logic)
-    apply("dark");
-  }
-
-  window.__toggleTheme = function () {
-    const current = document.documentElement.getAttribute("data-theme") || "dark";
-    const next = current === "dark" ? "light" : "dark";
-    apply(next);
-    localStorage.setItem(key, next);
-  };
+  const saved = localStorage.getItem("siteTheme");
+  document.documentElement.setAttribute("data-theme", saved || "day");
 })();
+
+// Wire up the toggle button once DOM is ready
+document.addEventListener("DOMContentLoaded", function () {
+  const KEY = "siteTheme";
+  const btn = document.querySelector("[data-theme-toggle]");
+  if (!btn) return;
+  btn.addEventListener("click", function () {
+    const cur = document.body.getAttribute("data-theme") || "day";
+    const next = cur === "night" ? "day" : "night";
+    document.body.setAttribute("data-theme", next);
+    localStorage.setItem(KEY, next);
+  });
+});
