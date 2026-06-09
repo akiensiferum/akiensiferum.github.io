@@ -140,6 +140,23 @@ article {
   box-shadow: var(--shadow);
 }
 
+figure {
+  width: min(100%, 640px);
+  margin: var(--space-4) auto;
+}
+
+figure img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+figcaption {
+  margin-top: var(--space-2);
+}
+
 /* ---------- Header / Nav ---------- */
 .site-header {
   position: sticky;

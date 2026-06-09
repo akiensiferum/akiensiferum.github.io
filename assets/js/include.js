@@ -66,8 +66,12 @@ async function includePartials() {
       a.removeAttribute("aria-current");
     }
   });
-  
-  // ✅ ADD THIS: tell other scripts partials are now in the DOM
+
+  const yearNode = document.getElementById("y");
+  if (yearNode) {
+    yearNode.textContent = new Date().getFullYear();
+  }
+
   document.dispatchEvent(new Event("partials:loaded"));
 }
 
