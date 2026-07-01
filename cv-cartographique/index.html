@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acius Exio — Parcours de terrain</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; overflow:hidden; }
+
+    :root {
+      --bg:     #FAF8F3;
+      --text:   #1E1C18;
+      --meta:   #7A7060;
+      --border: #DDD6C5;
+      --shadow: rgba(20,16,8,.16);
+      --r: 8px;
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans:  system-ui, -apple-system, sans-serif;
+      --pal: #BF6B28;
+      --neo: #4E7A55;
+      --med: #3D5291;
+      --edu: #6B5D42;
+    }
+
+    #map { width:100%; height:100%; }
+
+    /* ── Floating panels ── */
+    .panel {
+      position: fixed;
+      z-index: 900;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: 0 4px 24px var(--shadow);
+    }
+
+    /* Identity card */
+    #id-card {
+      top: 16px; left: 16px;
+      width: 270px;
+      padding: 16px 15px 14px;
+    }
+    #id-card .name {
+      font-family: var(--serif);
+      font-size: 1.12rem;
+      font-weight: bold;
+      color: var(--text);
+      letter-spacing: .01em;
+    }
+    #id-card .sub {
+      font-family: var(--sans);
+      font-size: .67rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--meta);
+      margin-top: 3px;
+      margin-bottom: 11px;
+    }
+    .rule { height:1px; background:var(--border); margin:9px 0; }
+
+    .kv { 
+  display:grid; 
+  grid-template-columns:74px minmax(0, 1fr); 
+  gap:4px 8px; 
+  margin-bottom:7px; 
+  align-items:start;
+}
+
+.kl { 
+  font-family:var(--sans); 
+  font-size:.62rem; 
+  text-transform:uppercase; 
+  letter-spacing:.045em; 
+  color:var(--meta); 
+  padding-top:2px; 
+  white-space:nowrap;
+}
+
+.kv-val { 
+  font-family:var(--sans); 
+  font-size:.74rem; 
+  color:var(--text); 
+  line-height:1.35; 
+  min-width:0;
+}
+
+    .tools { font-family:var(--sans); font-size:.69rem; color:var(--meta); line-height:1.75; margin-top:2px; }
+    .tools b { color:var(--text); font-weight:600; }
+
+    #id-card a {
+      display:inline-block; margin-top:10px;
+      font-family:var(--sans); font-size:.71rem;
+      color:var(--med); text-decoration:none;
+    }
+    #id-card a:hover { text-decoration:underline; }
+
+    /* Legend */
+    #legend { bottom:24px; right:16px; padding:11px 14px; }
+    .leg-head {
+      font-family:var(--sans); font-size:.63rem;
+      text-transform:uppercase; letter-spacing:.08em;
+      color:var(--meta); margin-bottom:8px;
+    }
+    .leg-row {
+      display:flex; align-items:center; gap:7px;
+      font-family:var(--sans); font-size:.74rem;
+      color:var(--text); margin-bottom:5px;
+    }
+    .leg-dot {
+      width:11px; height:11px;
+      border-radius:50%;
+      border:2px solid #fff;
+      box-shadow:0 1px 4px var(--shadow);
+      flex-shrink:0;
+    }
+
+    /* Count badge */
+    #badge {
+      bottom:24px; left:16px;
+      padding:8px 12px;
+      font-family:var(--sans); font-size:.69rem;
+      color:var(--meta); letter-spacing:.02em;
+    }
+
+    /* ── Leaflet popup overrides ── */
+    .leaflet-popup-content-wrapper {
+      padding:0 !important;
+      border-radius:8px !important;
+      box-shadow:0 6px 28px var(--shadow) !important;
+      border:1px solid var(--border) !important;
+      overflow:hidden;
+      background:var(--bg) !important;
+    }
+    .leaflet-popup-content { margin:0 !important; }
+    .leaflet-popup-tip { background:var(--bg); }
+    .leaflet-popup-close-button {
+      color:var(--meta) !important;
+      font-size:18px !important;
+      top:6px !important; right:8px !important;
+    }
+
+    .pop-stripe { height:4px; width:100%; }
+    .pop-body   { padding:12px 14px 14px; width:270px; }
+    .pop-name   { font-family:var(--serif); font-size:.93rem; color:var(--text); line-height:1.3; margin-bottom:3px; }
+    .pop-period { font-family:var(--sans); font-size:.62rem; text-transform:uppercase; letter-spacing:.07em; font-weight:600; margin-bottom:7px; }
+    .pop-meta   { font-family:var(--sans); font-size:.71rem; color:var(--meta); margin-bottom:2px; }
+    .pop-role   { font-family:var(--sans); font-size:.76rem; color:var(--text); font-style:italic; margin-bottom:8px; }
+    .pop-rule   { height:1px; background:var(--border); margin:8px 0; }
+    .pop-desc   { font-family:var(--serif); font-size:.77rem; color:#3A3730; line-height:1.56; margin-bottom:10px; }
+    .pop-skills { display:flex; flex-wrap:wrap; gap:3px; }
+    .pop-skill  {
+      font-family:var(--sans); font-size:.62rem;
+      color:var(--meta); border:1px solid var(--border);
+      border-radius:3px; padding:1px 5px; background:#fff;
+    }
+
+    /* Tooltip */
+    .leaflet-tooltip {
+      background:var(--bg);
+      border:1px solid var(--border);
+      border-radius:4px;
+      font-family:var(--sans);
+      font-size:.71rem;
+      color:var(--text);
+      box-shadow:0 2px 8px var(--shadow);
+      padding:3px 7px;
+    }
+    .leaflet-tooltip-top::before  { border-top-color:var(--border); }
+    .leaflet-tooltip-bottom::before { border-bottom-color:var(--border); }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="panel" id="id-card">
+  <div class="name">Acius Exio</div>
+  <div class="sub">Archéologue · Données spatiales</div>
+
+  <div class="kv">
+    <span class="kl">Formation</span>
+    <span class="kv-val">M2 Archéologie — Université Rennes 2</span>
+  </div>
+  <div class="kv">
+    <span class="kl">Domaines</span>
+    <span class="kv-val">Analyse spatiale, SIG, 3D, préhistoire, médiéval</span>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="tools">
+    <b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br>
+    <b>Spica</b> (visualiseur 3D) · <b>FileMaker</b> · <b>DAO</b>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="kv">
+    <span class="kl">Langues</span>
+    <span class="kv-val">FR · EN · IT · LA</span>
+  </div>
+
+  <a href="https://acius.site" target="_blank">↗ acius.site</a>
+</div>
+
+<div class="panel" id="legend">
+  <div class="leg-head">Périodes</div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--pal)"></div>Paléolithique / Mésolithique</div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--neo)"></div>Néolithique</div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--med)"></div>Médiéval / Moderne</div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--edu)"></div>Formation</div>
+</div>
+
+<div class="panel" id="badge">
+  Parcours sélectionné &nbsp;·&nbsp; terrain &nbsp;·&nbsp; collections &nbsp;·&nbsp; SIG &nbsp;·&nbsp; 3D
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const C = { pal:'#BF6B28', neo:'#4E7A55', med:'#3D5291', edu:'#6B5D42' };
+
+const map = L.map('map', { center:[46.2, 4.5], zoom:5, zoomControl:false });
+L.control.zoom({ position:'topright' }).addTo(map);
+
+L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  {
+    attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains:'abcd', maxZoom:19
+  }
+).addTo(map);
+
+const SITES = [
+  {
+  name:'Université Rennes 2', type:'edu', sz:16,
+  coords:[48.117,-1.677], years:'2019 – 2025',
+  period:'Formation',
+  role:'Master Archéologie · Master Linguistique et didactique des langues',
+  desc:'Formation en archéologie, documentation scientifique, analyse de corpus et traitement de données. Master 2 Archéologie consacré à l’analyse spatiale d’une couche incendiée à Satrianum ; Master Linguistique mobilisé pour la structuration de corpus et la rédaction scientifique.',
+  skills:['Analyse spatiale','SIG / QGIS','Corpus','Rédaction scientifique','Données']
+},
+{
+  name:'Spica · visualiseur 3D', type:'edu', sz:16,
+  coords:[48.118,-1.680], years:'2024 – 2026',
+  period:'Projet numérique',
+  role:'Visualisation interactive de données spatiales archéologiques',
+  desc:'Développement d’un visualiseur local en HTML/JavaScript/Plotly pour explorer des nuages de points archéologiques : filtrage par catégories, visualisation de remontages, groupes, fabriques, objets allongés et exports de vues pour l’analyse et la communication scientifique.',
+  skills:['HTML / JavaScript','Plotly','Données 3D','Visualisation','Valorisation numérique']
+},
+  {
+  name:'Torre di Satriano · Basilicate, IT', type:'med', sz:20,
+  coords:[40.578,15.668], years:'2022, 2024, 2025',
+  period:'Protohistoire / Médiéval',
+  role:'Fouille programmée · enregistrement spatial · traitement de données',
+  desc:'Mémoire de Master 2 : analyse spatiale d’une couche incendiée d’abandon. Traitement de données 3D issues de la fouille, étude de la répartition du mobilier en 3D, des restes architecturaux, et interprétation fonctionnelle et taphonomique du bâtiment. Localisation volontairement indicative.' ,
+  skills:['Analyse spatiale 3D','QGIS','Topographie','Interprétation','Figures scientifiques']
+},
+  {
+    name:'Fouille paléolithique · Dordogne', type:'pal', sz:14,
+    coords:[44.94,1.01], years:'2022, 2024',
+    period:'Paléolithique',
+    role:'Fouilleur',
+    desc:'Fouilles programmées en grotte dans la vallée de l\'Auvézère et ses environs. Localisation volontairement indicative.',
+    skills:['Fouille en grotte','Tamisage','Traitement du mobilier']
+  },
+  {
+    name:'Fouille paléolithique · Alsace', type:'pal', sz:14,
+    coords:[48.45,7.35], years:'2021',
+    period:'Paléolithique',
+    role:'Fouilleur',
+    desc:'Fouilles programmées d\'un abri sous roche Magdalénien / Azilien. Localisation volontairement indicative.',
+    skills:['Fouille','Documentation terrain', 'Traitement de données', 'Tamisage', 'Traitement du mobilier' ]
+  },
+  {
+    name:'Fouille mésolithique · Jura', type:'pal', sz:14,
+    coords:[46.70,5.85], years:'2021',
+    period:'Mésolithique',
+    role:'Fouilleur',
+    desc:'Fouille programmée d\'un campement mésolithique en fond de vallée. Localisation volontairement indicative.',
+    skills:['Fouille','Documentation terrain', 'Traitement du mobilier']
+  },
+  {
+    name:'Cairn néolithique · Bretagne', type:'neo', sz:14,
+    coords:[47.95,-2.80], years:'2022',
+    period:'Néolithique',
+    role:'Fouilleur',
+    desc:'Fouille programmée d\'un cairn néolithique en Bretagne intérieure. Expérience de fouille, de sondage sédimentologique et de traitement de données. Localisation volontairement indicative.',
+    skills:['Fouille','Géoarchéologie','Documentation']
+  },
+  {
+    name:'Fouille et prospection médiévale et moderne · Aude', type:'med', sz:14,
+    coords:[43.22,2.35], years:'2023, 2024',
+    period:'Médiéval / Moderne',
+    role:'Fouilleur · documentation graphique',
+    desc:'Opérations programmées sur un site castral médiéval et moderne dans l\'Aude. Fouille, DAO, prospection, relevé pierre-à-pierre crédité et contribution au rapport de fouille 2023. Localisation volontairement indicative.',
+    skills:['Fouille','DAO','Prospection','Rapports scientifiques']
+  },
+  {
+    name:'Chanlat II · Corrèze', type:'pal', sz:14,
+    coords:[45.20,1.85], years:'2023',
+    period:'Paléolithique — Aurignacien',
+    role:'Inventaire de collection · Base de données',
+    desc:'Mémoire de M1 : inventaire complet d\'une collection lithique aurignacienne (~3 100 artefacts). Structuration d\'une base de données FileMaker Pro pour la documentation, la normalisation et l\'analyse du corpus mobilier.',
+    skills:['Inventaire lithique','FileMaker Pro','Documentation de collection','Préhistoire']
+  }
+];
+
+function mkIcon(type, sz) {
+  const col = C[type] || '#888';
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      width:${sz}px;height:${sz}px;
+      background:${col};
+      border:2.5px solid #fff;
+      border-radius:50%;
+      box-shadow:0 2px 8px rgba(20,16,8,.3);
+      transition:transform .12s ease, box-shadow .12s ease;
+      cursor:pointer;
+    "></div>`,
+    iconSize: [sz,sz],
+    iconAnchor: [sz/2, sz/2],
+    popupAnchor: [0, -(sz/2+5)]
+  });
+}
+
+function mkPopup(s) {
+  const col = C[s.type] || '#888';
+  const chips = s.skills.map(k => `<span class="pop-skill">${k}</span>`).join('');
+  return `
+    <div class="pop-stripe" style="background:${col}"></div>
+    <div class="pop-body">
+      <div class="pop-name">${s.name}</div>
+      <div class="pop-period" style="color:${col}">${s.period}</div>
+      <div class="pop-meta">📅 ${s.years}</div>
+      <div class="pop-role">${s.role}</div>
+      <div class="pop-rule"></div>
+      <p class="pop-desc">${s.desc}</p>
+      <div class="pop-skills">${chips}</div>
+    </div>`;
+}
+
+SITES.forEach(s => {
+  const m = L.marker(s.coords, { icon: mkIcon(s.type, s.sz) });
+  m.bindPopup(mkPopup(s), { maxWidth:310 });
+  m.bindTooltip(s.name.split('·')[0].trim(), {
+    direction:'top',
+    offset:[0, -(s.sz/2+3)]
+  });
+  m.on('mouseover', function() {
+    const d = this._icon && this._icon.querySelector('div');
+    if (d) { d.style.transform='scale(1.35)'; d.style.boxShadow='0 4px 14px rgba(20,16,8,.4)'; }
+  });
+  m.on('mouseout', function() {
+    const d = this._icon && this._icon.querySelector('div');
+    if (d) { d.style.transform='scale(1)'; d.style.boxShadow='0 2px 8px rgba(20,16,8,.3)'; }
+  });
+  m.addTo(map);
+});
+</script>
+</body>
+</html>
