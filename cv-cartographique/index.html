@@ -214,7 +214,7 @@
 </div>
 
 <div class="panel" id="badge">
-  Parcours sélectionné &nbsp;·&nbsp; terrain &nbsp;·&nbsp; collections &nbsp;·&nbsp; SIG &nbsp;·&nbsp; 3D
+  Parcours sélectionné &nbsp;·&nbsp; terrain &nbsp;·&nbsp; laboratoire &nbsp;·&nbsp; collections &nbsp;·&nbsp; SIG &nbsp;·&nbsp; 3D
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -232,10 +232,12 @@ L.tileLayer(
   }
 ).addTo(map);
 
+const markerGroup = L.featureGroup();
+
 const SITES = [
   {
   name:'Université Rennes 2', type:'edu', sz:16,
-  coords:[48.117,-1.677], years:'2019 – 2025',
+  coords:[48.121,-1.704], years:'2019 – 2025',
   period:'Formation',
   role:'Master Archéologie · Master Linguistique et didactique des langues',
   desc:'Formation en archéologie, documentation scientifique, analyse de corpus et traitement de données. Master 2 Archéologie consacré à l’analyse spatiale d’une couche incendiée à Satrianum ; Master Linguistique mobilisé pour la structuration de corpus et la rédaction scientifique.',
@@ -243,7 +245,7 @@ const SITES = [
 },
 {
   name:'Spica · visualiseur 3D', type:'edu', sz:16,
-  coords:[48.118,-1.680], years:'2024 – 2026',
+  coords:[48.107,-1.675], years:'2024 – 2026',
   period:'Projet numérique',
   role:'Visualisation interactive de données spatiales archéologiques',
   desc:'Développement d’un visualiseur local en HTML/JavaScript/Plotly pour explorer des nuages de points archéologiques : filtrage par catégories, visualisation de remontages, groupes, fabriques, objets allongés et exports de vues pour l’analyse et la communication scientifique.',
@@ -296,6 +298,14 @@ const SITES = [
     role:'Fouilleur · documentation graphique',
     desc:'Opérations programmées sur un site castral médiéval et moderne dans l\'Aude. Fouille, DAO, prospection, relevé pierre-à-pierre crédité et contribution au rapport de fouille 2023. Localisation volontairement indicative.',
     skills:['Fouille','DAO','Prospection','Rapports scientifiques']
+  },
+  {
+    name:'Beg-er-Vil · stage de laboratoire', type:'pal', sz:14,
+    coords:[48.112,-1.690], years:'2024',
+    period:'Mésolithique',
+    role:'Stage de laboratoire · tri de refus de tamis',
+    desc:'Stage réalisé à Rennes sur du mobilier issu du site mésolithique de Beg-er-Vil : tri de refus de tamis, observation méthodique de restes issus d’un amas coquillier, initiation à l’archéomalacologie et à l’archéozoologie. Le point localise le lieu de traitement en laboratoire, non le site archéologique.',
+    skills:['Tri de refus de tamis','Mobilier','Archéomalacologie','Archéozoologie','Préhistoire']
   },
   {
     name:'Chanlat II · Corrèze', type:'pal', sz:14,
@@ -358,7 +368,12 @@ SITES.forEach(s => {
     if (d) { d.style.transform='scale(1)'; d.style.boxShadow='0 2px 8px rgba(20,16,8,.3)'; }
   });
   m.addTo(map);
+  markerGroup.addLayer(m);
 });
+
+if (markerGroup.getLayers().length) {
+  map.fitBounds(markerGroup.getBounds().pad(0.18));
+}
 </script>
 </body>
 </html>
