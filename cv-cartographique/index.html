@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parcours de terrain</title>
 
-<!-- Leaflet : une seule source, version fixée -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
@@ -30,7 +29,6 @@ html, body { width:100%; height:100%; overflow:hidden; }
 
 #map { width:100%; height:100%; }
 
-/* ── Floating panels ── */
 .panel {
   position: fixed;
   z-index: 900;
@@ -50,27 +48,37 @@ html, body { width:100%; height:100%; overflow:hidden; }
 .kv-val { font-family:var(--sans); font-size:.74rem; color:var(--text); line-height:1.35; min-width:0; }
 .tools { font-family:var(--sans); font-size:.69rem; color:var(--meta); line-height:1.75; margin-top:2px; }
 .tools b { color:var(--text); font-weight:600; }
-#id-card a { display:inline-block; margin-top:10px; font-family:var(--sans); font-size:.71rem; color:var(--med); text-decoration:none; }
-#id-card a:hover { text-decoration:underline; }
+#id-card a.site { display:inline-block; margin-top:10px; font-family:var(--sans); font-size:.71rem; color:var(--med); text-decoration:none; }
+#id-card a.site:hover { text-decoration:underline; }
+
+/* Sélecteur de langue */
+.langs { display:flex; gap:4px; flex-wrap:wrap; }
+.lang-btn {
+  font-family:var(--sans); font-size:.7rem; font-weight:600; letter-spacing:.04em;
+  color:var(--meta); background:transparent;
+  border:1px solid var(--border); border-radius:4px;
+  padding:1px 7px; cursor:pointer; line-height:1.5;
+}
+.lang-btn:hover { color:var(--text); border-color:var(--meta); }
+.lang-btn.active { color:#fff; background:var(--text); border-color:var(--text); }
+.lang-btn:focus-visible { outline:2px solid var(--med); outline-offset:1px; }
 
 /* Legend */
-#legend { bottom:24px; right:16px; padding:11px 14px; max-width:230px; }
+#legend { bottom:24px; right:16px; padding:11px 14px; max-width:240px; }
 .leg-head { font-family:var(--sans); font-size:.63rem; text-transform:uppercase; letter-spacing:.08em; color:var(--meta); margin-bottom:8px; }
 .leg-row { display:flex; align-items:center; gap:7px; font-family:var(--sans); font-size:.74rem; color:var(--text); margin-bottom:5px; }
 .leg-dot { width:11px; height:11px; border-radius:50%; border:2px solid #fff; box-shadow:0 1px 4px var(--shadow); flex-shrink:0; }
 .leg-note { font-family:var(--sans); font-size:.64rem; color:var(--meta); line-height:1.4; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
 
-/* Count badge */
-#badge { bottom:24px; left:16px; padding:8px 12px; font-family:var(--sans); font-size:.69rem; color:var(--meta); letter-spacing:.02em; }
+/* Badge */
+#badge { bottom:24px; left:16px; padding:8px 12px; font-family:var(--sans); font-size:.69rem; color:var(--meta); letter-spacing:.02em; max-width:calc(100vw - 300px); }
 
-/* ── Leaflet popup overrides ── */
+/* Popups */
 .leaflet-popup-content-wrapper {
-  padding:0 !important;
-  border-radius:8px !important;
+  padding:0 !important; border-radius:8px !important;
   box-shadow:0 6px 28px var(--shadow) !important;
   border:1px solid var(--border) !important;
-  overflow:hidden;
-  background:var(--bg) !important;
+  overflow:hidden; background:var(--bg) !important;
 }
 .leaflet-popup-content { margin:0 !important; }
 .leaflet-popup-tip { background:var(--bg); }
@@ -87,7 +95,7 @@ html, body { width:100%; height:100%; overflow:hidden; }
 .pop-skills { display:flex; flex-wrap:wrap; gap:3px; }
 .pop-skill { font-family:var(--sans); font-size:.62rem; color:var(--meta); border:1px solid var(--border); border-radius:3px; padding:1px 5px; background:#fff; }
 
-/* Onglets des marqueurs regroupés (plusieurs entrées au même endroit) */
+/* Onglets (marqueurs regroupés) */
 .tabs { display:flex; background:#F1EDE1; border-bottom:1px solid var(--border); padding-right:28px; }
 .tab {
   flex:1 1 auto; min-width:0;
@@ -101,7 +109,6 @@ html, body { width:100%; height:100%; overflow:hidden; }
 .tab.active { color:var(--text); background:var(--bg); border-bottom-color:var(--c); }
 .entry[hidden] { display:none; }
 
-/* Tooltip */
 .leaflet-tooltip { background:var(--bg); border:1px solid var(--border); border-radius:4px; font-family:var(--sans); font-size:.71rem; color:var(--text); box-shadow:0 2px 8px var(--shadow); padding:3px 7px; }
 .leaflet-tooltip-top::before { border-top-color:var(--border); }
 .leaflet-tooltip-bottom::before { border-bottom-color:var(--border); }
@@ -112,243 +119,475 @@ html, body { width:100%; height:100%; overflow:hidden; }
 <div id="map"></div>
 
 <div class="panel" id="id-card">
-  <div class="name">Portfolio cartographique</div>
-  <div class="sub">Données spatiales archéologiques</div>
+  <div class="name" data-i18n="cardName"></div>
+  <div class="sub" data-i18n="cardSub"></div>
   <div class="kv">
-    <span class="kl">Formation</span>
-    <span class="kv-val">Master Archéologie, sciences pour l'archéologie — Université Rennes 2</span>
+    <span class="kl" data-i18n="kEdu"></span>
+    <span class="kv-val" data-i18n="vEdu"></span>
   </div>
   <div class="kv">
-    <span class="kl">Domaines</span>
-    <span class="kv-val">Analyse spatiale, SIG, 3D, préhistoire, médiéval</span>
+    <span class="kl" data-i18n="kFields"></span>
+    <span class="kv-val" data-i18n="vFields"></span>
   </div>
   <div class="rule"></div>
-  <div class="tools">
-    <b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br>
-    <b>Spica</b> (visualiseur 3D) · <b>FileMaker</b> · <b>DAO</b>
-  </div>
+  <div class="tools" data-i18n-html="tools"></div>
   <div class="rule"></div>
   <div class="kv">
-    <span class="kl">Langues</span>
-    <span class="kv-val">FR · EN · IT · LA</span>
+    <span class="kl" data-i18n="kLang"></span>
+    <span class="kv-val">
+      <span class="langs" role="group" aria-label="Language / Langue / Lingua / Lingua">
+        <button type="button" class="lang-btn" data-lang="fr" lang="fr" title="Français">FR</button>
+        <button type="button" class="lang-btn" data-lang="en" lang="en" title="English">EN</button>
+        <button type="button" class="lang-btn" data-lang="it" lang="it" title="Italiano">IT</button>
+        <button type="button" class="lang-btn" data-lang="la" lang="la" title="Latina">LA</button>
+      </span>
+    </span>
   </div>
-  <a href="https://acius.site" target="_blank" rel="noopener">↗ acius.site</a>
+  <a class="site" href="https://acius.site" target="_blank" rel="noopener">↗ acius.site</a>
 </div>
 
 <div class="panel" id="legend">
-  <div class="leg-head">Périodes</div>
-  <div class="leg-row"><div class="leg-dot" style="background:var(--pal)"></div>Paléolithique / Mésolithique</div>
-  <div class="leg-row"><div class="leg-dot" style="background:var(--neo)"></div>Néolithique</div>
-  <div class="leg-row"><div class="leg-dot" style="background:var(--med)"></div>Médiéval / Moderne</div>
-  <div class="leg-row"><div class="leg-dot" style="background:var(--edu)"></div>Formation</div>
-  <div class="leg-note">Un cercle numéroté regroupe plusieurs entrées au même endroit : cliquer, puis choisir l'onglet.</div>
+  <div class="leg-head" data-i18n="legHead"></div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--pal)"></div><span data-i18n="legPal"></span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--neo)"></div><span data-i18n="legNeo"></span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--med)"></div><span data-i18n="legMed"></span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:var(--edu)"></div><span data-i18n="legEdu"></span></div>
+  <div class="leg-note" data-i18n="legNote"></div>
 </div>
 
-<div class="panel" id="badge">
-  Parcours sélectionné &nbsp;·&nbsp; terrain &nbsp;·&nbsp; laboratoire &nbsp;·&nbsp; collections &nbsp;·&nbsp; SIG &nbsp;·&nbsp; 3D
-</div>
+<div class="panel" id="badge" data-i18n="badge"></div>
 
 <script>
-const C = { pal:'#BF6B28', neo:'#4E7A55', med:'#3D5291', edu:'#6B5D42' };
+/* ═══════════════════════════════════════════════
+   1. TEXTES DE L'INTERFACE
+   ═══════════════════════════════════════════════ */
+const UI = {
+  fr: {
+    title: "Parcours de terrain",
+    cardName: "Portfolio cartographique",
+    cardSub: "Données spatiales archéologiques",
+    kEdu: "Formation",
+    vEdu: "Master Archéologie, sciences pour l’archéologie — Université Rennes 2",
+    kFields: "Domaines",
+    vFields: "Analyse spatiale, SIG, 3D, préhistoire, médiéval",
+    tools: "<b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br><b>Spica</b> (visualiseur 3D) · <b>FileMaker</b> · <b>DAO</b>",
+    kLang: "Langues",
+    legHead: "Périodes",
+    legPal: "Paléolithique / Mésolithique",
+    legNeo: "Néolithique",
+    legMed: "Médiéval / Moderne",
+    legEdu: "Formation",
+    legNote: "Un cercle numéroté regroupe plusieurs entrées au même endroit : cliquer, puis choisir l’onglet.",
+    badge: "Parcours sélectionné · terrain · laboratoire · collections · SIG · 3D",
+    entries: "entrées"
+  },
+  en: {
+    title: "Fieldwork record",
+    cardName: "Cartographic portfolio",
+    cardSub: "Archaeological spatial data",
+    kEdu: "Education",
+    vEdu: "Master’s in Archaeology and Archaeosciences — Université Rennes 2",
+    kFields: "Fields",
+    vFields: "Spatial analysis, GIS, 3D, prehistory, medieval archaeology",
+    tools: "<b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br><b>Spica</b> (3D viewer) · <b>FileMaker</b> · <b>CAD</b>",
+    kLang: "Languages",
+    legHead: "Periods",
+    legPal: "Palaeolithic / Mesolithic",
+    legNeo: "Neolithic",
+    legMed: "Medieval / Modern",
+    legEdu: "Education",
+    legNote: "A numbered circle groups several entries at the same place: click it, then pick a tab.",
+    badge: "Selected record · fieldwork · laboratory · collections · GIS · 3D",
+    entries: "entries"
+  },
+  it: {
+    title: "Percorso sul campo",
+    cardName: "Portfolio cartografico",
+    cardSub: "Dati spaziali archeologici",
+    kEdu: "Formazione",
+    vEdu: "Laurea magistrale in Archeologia e Archeoscienze — Université Rennes 2",
+    kFields: "Ambiti",
+    vFields: "Analisi spaziale, GIS, 3D, preistoria, medioevo",
+    tools: "<b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br><b>Spica</b> (visualizzatore 3D) · <b>FileMaker</b> · <b>CAD</b>",
+    kLang: "Lingue",
+    legHead: "Periodi",
+    legPal: "Paleolitico / Mesolitico",
+    legNeo: "Neolitico",
+    legMed: "Medievale / Moderno",
+    legEdu: "Formazione",
+    legNote: "Un cerchio numerato raggruppa più voci nello stesso luogo: clicca, poi scegli la scheda.",
+    badge: "Percorso selezionato · scavo · laboratorio · collezioni · GIS · 3D",
+    entries: "voci"
+  },
+  la: {
+    title: "Cursus operum in agro",
+    cardName: "Cartographia operum",
+    cardSub: "Data spatialia archaeologica",
+    kEdu: "Studia",
+    vEdu: "Gradus magistralis in archaeologia et scientiis archaeologicis — Universitas Redonensis II",
+    kFields: "Disciplinae",
+    vFields: "Analysis spatialis, GIS, 3D, praehistoria, medium aevum",
+    tools: "<b>QGIS</b> · <b>Python</b> · <b>Metashape</b> · <b>Leaflet.js</b><br><b>Spica</b> (instrumentum 3D) · <b>FileMaker</b> · <b>CAD</b>",
+    kLang: "Linguae",
+    legHead: "Aetates",
+    legPal: "Palaeolithicum / Mesolithicum",
+    legNeo: "Neolithicum",
+    legMed: "Medium aevum / Aetas recentior",
+    legEdu: "Studia",
+    legNote: "Circulus numeratus plura loca eodem in loco coniungit: preme, deinde tabellam elige.",
+    badge: "Cursus selectus · fossiones · laboratorium · collectiones · GIS · 3D",
+    entries: "tituli"
+  }
+};
 
-const map = L.map('map', { center:[46.2, 4.5], zoom:5, zoomControl:false });
-L.control.zoom({ position:'topright' }).addTo(map);
+const HUBS = { rennes: { fr:"Rennes", en:"Rennes", it:"Rennes", la:"Redones" } };
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_3wab_1_6062fa988a8e0a1daff13680', {
-  attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/attributions">CARTO</a>',
-  subdomains:'abcd', maxZoom:19
-}).addTo(map);
-
-const markerGroup = L.featureGroup();
-
-/* Les entrées qui partagent la même valeur de `hub` sont fusionnées
-   en UN SEUL marqueur à onglets (ici : les 3 entrées de Rennes). */
+/* ═══════════════════════════════════════════════
+   2. DONNÉES DES SITES (traductions par langue)
+   ═══════════════════════════════════════════════ */
 const SITES = [
   {
-    name:'Université Rennes 2', tab:'Rennes 2', hub:'rennes', type:'edu', sz:16,
-    coords:[48.114,-1.680], years:'2020 – 2025',
-    period:'Formation',
-    role:'Master Archéologie · Master Linguistique et didactique des langues',
-    desc:'Formation en archéologie, documentation scientifique, analyse de corpus et traitement de données. Master 2 Archéologie consacré à l’analyse spatiale d’une couche incendiée à Satrianum ; Master Linguistique mobilisé pour la structuration de corpus et la rédaction scientifique.',
-    skills:['Analyse spatiale','SIG / QGIS','Corpus','Rédaction scientifique','Données']
+    hub:"rennes", type:"edu", sz:16, coords:[48.114,-1.680], years:"2020 – 2025",
+    fr:{ name:"Université Rennes 2", tab:"Rennes 2", period:"Formation",
+      role:"Master Archéologie · Master Linguistique et didactique des langues",
+      desc:"Formation en archéologie, documentation scientifique, analyse de corpus et traitement de données. Master 2 Archéologie consacré à l’analyse spatiale d’une couche incendiée à Satrianum ; Master Linguistique mobilisé pour la structuration de corpus et la rédaction scientifique.",
+      skills:["Analyse spatiale","SIG / QGIS","Corpus","Rédaction scientifique","Données"] },
+    en:{ name:"Université Rennes 2", tab:"Rennes 2", period:"Education",
+      role:"Master’s in Archaeology · Master’s in Linguistics and Language Teaching",
+      desc:"Training in archaeology, scientific documentation, corpus analysis and data processing. Master 2 in Archaeology devoted to the spatial analysis of a burnt layer at Satrianum; the Linguistics Master drawn on for corpus structuring and scientific writing.",
+      skills:["Spatial analysis","GIS / QGIS","Corpora","Scientific writing","Data"] },
+    it:{ name:"Université Rennes 2", tab:"Rennes 2", period:"Formazione",
+      role:"Laurea magistrale in Archeologia · Laurea magistrale in Linguistica e didattica delle lingue",
+      desc:"Formazione in archeologia, documentazione scientifica, analisi di corpora ed elaborazione dei dati. Tesi di Master 2 in Archeologia dedicata all’analisi spaziale di uno strato d’incendio a Satrianum; il Master in Linguistica è stato messo a frutto per la strutturazione dei corpora e la redazione scientifica.",
+      skills:["Analisi spaziale","GIS / QGIS","Corpora","Scrittura scientifica","Dati"] },
+    la:{ name:"Universitas Redonensis II", tab:"Redones II", period:"Studia",
+      role:"Gradus magistralis in archaeologia · Gradus magistralis in linguistica et didactica linguarum",
+      desc:"Institutio in archaeologia, documentatione scientifica, corporum analysi et datorum tractatione. Magisterium alterum archaeologiae in analysi spatiali strati incendio consumpti apud Satrianum positum; magisterium linguisticae ad corpora ordinanda et scientifice scribendum adhibitum.",
+      skills:["Analysis spatialis","GIS / QGIS","Corpora","Scriptio scientifica","Data"] }
   },
   {
-    name:'Spica · visualiseur 3D', tab:'Spica', hub:'rennes', type:'edu', sz:16,
-    coords:[48.114,-1.680], years:'2025 – ',
-    period:'Projet numérique',
-    role:'Visualisation interactive de données spatiales archéologiques',
-    desc:'Développement d’un visualiseur local en HTML/JavaScript/Plotly pour explorer des nuages de points archéologiques : filtrage par catégories, visualisation de remontages, groupes, fabriques, objets allongés et exports de vues pour l’analyse et la communication scientifique. Le point localise le lieu de développement, non un site archéologique.',
-    skills:['HTML / JavaScript','Plotly','Données 3D','Visualisation','Valorisation numérique']
+    hub:"rennes", type:"edu", sz:16, coords:[48.114,-1.680], years:"2025 – ",
+    fr:{ name:"Spica · visualiseur 3D", tab:"Spica", period:"Projet numérique",
+      role:"Visualisation interactive de données spatiales archéologiques",
+      desc:"Développement d’un visualiseur local en HTML/JavaScript/Plotly pour explorer des nuages de points archéologiques : filtrage par catégories, visualisation de remontages, groupes, fabriques, objets allongés et exports de vues pour l’analyse et la communication scientifique. Le point localise le lieu de développement, non un site archéologique.",
+      skills:["HTML / JavaScript","Plotly","Données 3D","Visualisation","Valorisation numérique"] },
+    en:{ name:"Spica · 3D viewer", tab:"Spica", period:"Digital project",
+      role:"Interactive visualisation of archaeological spatial data",
+      desc:"Development of a local HTML/JavaScript/Plotly viewer to explore archaeological point clouds: filtering by category, display of refits, groups, fabric (dip and orientation), elongated objects, and view exports for analysis and scientific communication. The point marks the place of development, not an archaeological site.",
+      skills:["HTML / JavaScript","Plotly","3D data","Visualisation","Digital dissemination"] },
+    it:{ name:"Spica · visualizzatore 3D", tab:"Spica", period:"Progetto digitale",
+      role:"Visualizzazione interattiva di dati spaziali archeologici",
+      desc:"Sviluppo di un visualizzatore locale in HTML/JavaScript/Plotly per esplorare nuvole di punti archeologiche: filtraggio per categorie, visualizzazione di rimontaggi, gruppi, fabric (inclinazione e orientamento), oggetti allungati ed esportazione di viste per l’analisi e la comunicazione scientifica. Il punto indica il luogo di sviluppo, non un sito archeologico.",
+      skills:["HTML / JavaScript","Plotly","Dati 3D","Visualizzazione","Valorizzazione digitale"] },
+    la:{ name:"Spica · inspector tridimensionalis", tab:"Spica", period:"Opus digitale",
+      role:"Repraesentatio interactiva datorum spatialium archaeologicorum",
+      desc:"Inspectoris localis in HTML/JavaScript/Plotly conscripti evolutio, quo nubes punctorum archaeologicorum explorentur: selectio per genera, repraesentatio fragmentorum coniunctorum, greges, fabricae (inclinatio et orientatio), res oblongae, et imagines ad analysin et scientificam communicationem exportatae. Punctum locum evolutionis, non locum archaeologicum, significat.",
+      skills:["HTML / JavaScript","Plotly","Data tridimensionalia","Repraesentatio","Divulgatio digitalis"] }
   },
   {
-    name:'Beg-er-Vil · stage de laboratoire', tab:'Beg-er-Vil', hub:'rennes', type:'pal', sz:14,
-    coords:[48.114,-1.680], years:'2021',
-    period:'Mésolithique',
-    role:'Stage de laboratoire · tri de refus de tamis',
-    desc:'Stage réalisé à Rennes sur du mobilier issu du site mésolithique de Beg-er-Vil : tri de refus de tamis, observation méthodique de restes issus d’un amas coquillier, initiation à l’archéomalacologie et à l’archéozoologie. Le point localise le lieu de traitement en laboratoire, non le site archéologique.',
-    skills:['Tri de refus de tamis','Mobilier','Archéomalacologie','Archéozoologie','Préhistoire']
+    hub:"rennes", type:"pal", sz:14, coords:[48.114,-1.680], years:"2021",
+    fr:{ name:"Beg-er-Vil · stage de laboratoire", tab:"Beg-er-Vil", period:"Mésolithique",
+      role:"Stage de laboratoire · tri de refus de tamis",
+      desc:"Stage réalisé à Rennes sur du mobilier issu du site mésolithique de Beg-er-Vil : tri de refus de tamis, observation méthodique de restes issus d’un amas coquillier, initiation à l’archéomalacologie et à l’archéozoologie. Le point localise le lieu de traitement en laboratoire, non le site archéologique.",
+      skills:["Tri de refus de tamis","Mobilier","Archéomalacologie","Archéozoologie","Préhistoire"] },
+    en:{ name:"Beg-er-Vil · laboratory internship", tab:"Beg-er-Vil", period:"Mesolithic",
+      role:"Laboratory internship · sorting of sieve residues",
+      desc:"Internship in Rennes on material from the Mesolithic site of Beg-er-Vil: sorting of sieve residues, methodical observation of remains from a shell midden, introduction to archaeomalacology and archaeozoology. The point marks the laboratory where the material was processed, not the archaeological site.",
+      skills:["Sieve-residue sorting","Finds","Archaeomalacology","Archaeozoology","Prehistory"] },
+    it:{ name:"Beg-er-Vil · tirocinio di laboratorio", tab:"Beg-er-Vil", period:"Mesolitico",
+      role:"Tirocinio di laboratorio · selezione dei residui di setaccio",
+      desc:"Tirocinio svolto a Rennes su materiali provenienti dal sito mesolitico di Beg-er-Vil: selezione dei residui di setaccio, osservazione metodica di resti provenienti da un cumulo di conchiglie, introduzione all’archeomalacologia e all’archeozoologia. Il punto indica il luogo di trattamento in laboratorio, non il sito archeologico.",
+      skills:["Selezione dei residui","Materiali","Archeomalacologia","Archeozoologia","Preistoria"] },
+    la:{ name:"Beg-er-Vil · exercitatio in laboratorio", tab:"Beg-er-Vil", period:"Mesolithicum",
+      role:"Exercitatio in laboratorio · reliquiarum cribri selectio",
+      desc:"Exercitatio Redonibus peracta in materia e loco mesolithico Beg-er-Vil: reliquiarum cribri selectio, observatio methodica reliquiarum ex acervo concharum, introductio in archaeomalacologiam et archaeozoologiam. Punctum locum tractationis in laboratorio, non locum archaeologicum, significat.",
+      skills:["Selectio reliquiarum","Supellex","Archaeomalacologia","Archaeozoologia","Praehistoria"] }
   },
   {
-    name:'Torre di Satriano · Basilicate, IT', type:'med', sz:20,
-    coords:[40.578,15.668], years:'2022, 2024, 2025, 2026',
-    period:'Protohistoire - Médiéval',
-    role:'Fouille programmée · enregistrement spatial · traitement de données',
-    desc:'Mémoire de Master 2 : analyse spatiale d’une couche incendiée d’abandon. Traitement de données 3D issues de la fouille, étude de la répartition du mobilier en 3D, des restes architecturaux, et interprétation fonctionnelle et taphonomique du bâtiment. Localisation volontairement indicative.',
-    skills:['Analyse spatiale 3D','QGIS','Topographie','Interprétation','Figures scientifiques']
+    type:"med", sz:20, coords:[40.578,15.668], years:"2022, 2024, 2025, 2026",
+    fr:{ name:"Torre di Satriano · Basilicate, IT", period:"Protohistoire - Médiéval",
+      role:"Fouille programmée · enregistrement spatial · traitement de données",
+      desc:"Mémoire de Master 2 : analyse spatiale d’une couche incendiée d’abandon. Traitement de données 3D issues de la fouille, étude de la répartition du mobilier en 3D, des restes architecturaux, et interprétation fonctionnelle et taphonomique du bâtiment. Localisation volontairement indicative.",
+      skills:["Analyse spatiale 3D","QGIS","Topographie","Interprétation","Figures scientifiques"] },
+    en:{ name:"Torre di Satriano · Basilicata, IT", period:"Protohistory – Medieval",
+      role:"Research excavation · spatial recording · data processing",
+      desc:"Master 2 dissertation: spatial analysis of a burnt abandonment layer. Processing of 3D excavation data, study of the 3D distribution of finds and architectural remains, and functional and taphonomic interpretation of the building. Location deliberately approximate.",
+      skills:["3D spatial analysis","QGIS","Surveying","Interpretation","Scientific figures"] },
+    it:{ name:"Torre di Satriano · Basilicata, IT", period:"Protostoria – Medioevo",
+      role:"Scavo programmato · registrazione spaziale · elaborazione dei dati",
+      desc:"Tesi di Master 2: analisi spaziale di uno strato d’incendio di abbandono. Elaborazione dei dati 3D di scavo, studio della distribuzione tridimensionale dei materiali e dei resti architettonici, interpretazione funzionale e tafonomica dell’edificio. Localizzazione volutamente indicativa.",
+      skills:["Analisi spaziale 3D","QGIS","Topografia","Interpretazione","Figure scientifiche"] },
+    la:{ name:"Turris Satriani · Lucania, IT", period:"Protohistoria – Medium aevum",
+      role:"Fossio ordinata · descriptio spatialis · datorum tractatio",
+      desc:"Dissertatio magisterii alterius: analysis spatialis strati incendio consumpti in derelictione. Tractatio datorum tridimensionalium ex fossione, studium distributionis supellectilis et reliquiarum architectonicarum, interpretatio functionalis et taphonomica aedificii. Locus consulto indicativus.",
+      skills:["Analysis spatialis 3D","QGIS","Topographia","Interpretatio","Figurae scientificae"] }
   },
   {
-    name:'Fouille paléolithique · Dordogne', type:'pal', sz:14,
-    coords:[44.94,1.01], years:'2022, 2024',
-    period:'Paléolithique',
-    role:'Fouilleur',
-    desc:'Fouilles programmées en grotte dans la vallée de l’Auvézère et ses environs. Localisation volontairement indicative.',
-    skills:['Fouille en grotte','Tamisage','Traitement du mobilier']
+    type:"pal", sz:14, coords:[44.94,1.01], years:"2022, 2024",
+    fr:{ name:"Fouille paléolithique · Dordogne", period:"Paléolithique", role:"Fouilleur",
+      desc:"Fouilles programmées en grotte dans la vallée de l’Auvézère et ses environs. Localisation volontairement indicative.",
+      skills:["Fouille en grotte","Tamisage","Traitement du mobilier"] },
+    en:{ name:"Palaeolithic excavation · Dordogne", period:"Palaeolithic", role:"Field excavator",
+      desc:"Research excavations in a cave in the Auvézère valley and surroundings. Location deliberately approximate.",
+      skills:["Cave excavation","Sieving","Finds processing"] },
+    it:{ name:"Scavo paleolitico · Dordogna", period:"Paleolitico", role:"Operatore di scavo",
+      desc:"Scavi programmati in grotta nella valle dell’Auvézère e nei dintorni. Localizzazione volutamente indicativa.",
+      skills:["Scavo in grotta","Setacciatura","Trattamento dei materiali"] },
+    la:{ name:"Fossio palaeolithica · Dordonia", period:"Palaeolithicum", role:"Fossor",
+      desc:"Fossiones ordinatae in spelunca in valle Auvezeriae et circa. Locus consulto indicativus.",
+      skills:["Fossio in spelunca","Cribratio","Tractatio supellectilis"] }
   },
   {
-    name:'Fouille paléolithique · Alsace', type:'pal', sz:14,
-    coords:[48.45,7.35], years:'2021, 2026',
-    period:'Paléolithique',
-    role:'Fouilleur',
-    desc:'Fouilles programmées d’un abri sous roche Magdalénien / Azilien. Localisation volontairement indicative. <a href="https://www.lalsace.fr/education/2026/09/18/grotte-du-blenien-a-wolschwiller-apres-14-etes-les-fouilles-archeologiques-sont-terminees" target="_blank" rel="noopener noreferrer">↗ Reportage de L’Alsace sur la campagne</a>',
-    skills:['Fouille','Documentation terrain','Traitement de données','Tamisage','Traitement du mobilier']
+    type:"pal", sz:14, coords:[48.45,7.35], years:"2021, 2026",
+    link:"https://www.lalsace.fr/education/2026/09/18/grotte-du-blenien-a-wolschwiller-apres-14-etes-les-fouilles-archeologiques-sont-terminees",
+    fr:{ name:"Fouille paléolithique · Alsace", period:"Paléolithique", role:"Fouilleur",
+      desc:"Fouilles programmées d’un abri sous roche Magdalénien / Azilien. Localisation volontairement indicative.",
+      linkLabel:"↗ Reportage de L’Alsace sur la campagne",
+      skills:["Fouille","Documentation terrain","Traitement de données","Tamisage","Traitement du mobilier"] },
+    en:{ name:"Palaeolithic excavation · Alsace", period:"Palaeolithic", role:"Field excavator",
+      desc:"Research excavations of a Magdalenian / Azilian rock shelter. Location deliberately approximate.",
+      linkLabel:"↗ L’Alsace report on the campaign (in French)",
+      skills:["Excavation","Field documentation","Data processing","Sieving","Finds processing"] },
+    it:{ name:"Scavo paleolitico · Alsazia", period:"Paleolitico", role:"Operatore di scavo",
+      desc:"Scavi programmati di un riparo sotto roccia del Maddaleniano / Aziliano. Localizzazione volutamente indicativa.",
+      linkLabel:"↗ Reportage de L’Alsace sulla campagna (in francese)",
+      skills:["Scavo","Documentazione di campo","Elaborazione dei dati","Setacciatura","Trattamento dei materiali"] },
+    la:{ name:"Fossio palaeolithica · Alsatia", period:"Palaeolithicum", role:"Fossor",
+      desc:"Fossiones ordinatae in recessu sub rupe Magdaleniano / Aziliano. Locus consulto indicativus.",
+      linkLabel:"↗ Relatio ephemeridis L’Alsace de expeditione (Gallice)",
+      skills:["Fossio","Documentatio in agro","Datorum tractatio","Cribratio","Tractatio supellectilis"] }
   },
   {
-    name:'Fouille mésolithique · Jura', type:'pal', sz:14,
-    coords:[46.70,5.85], years:'2021',
-    period:'Mésolithique',
-    role:'Fouilleur',
-    desc:'Fouille programmée d’un campement mésolithique en fond de vallée. Localisation volontairement indicative.',
-    skills:['Fouille','Documentation terrain','Traitement du mobilier']
+    type:"pal", sz:14, coords:[46.70,5.85], years:"2021",
+    fr:{ name:"Fouille mésolithique · Jura", period:"Mésolithique", role:"Fouilleur",
+      desc:"Fouille programmée d’un campement mésolithique en fond de vallée. Localisation volontairement indicative.",
+      skills:["Fouille","Documentation terrain","Traitement du mobilier"] },
+    en:{ name:"Mesolithic excavation · Jura", period:"Mesolithic", role:"Field excavator",
+      desc:"Research excavation of a Mesolithic camp on a valley floor. Location deliberately approximate.",
+      skills:["Excavation","Field documentation","Finds processing"] },
+    it:{ name:"Scavo mesolitico · Giura", period:"Mesolitico", role:"Operatore di scavo",
+      desc:"Scavo programmato di un accampamento mesolitico sul fondovalle. Localizzazione volutamente indicativa.",
+      skills:["Scavo","Documentazione di campo","Trattamento dei materiali"] },
+    la:{ name:"Fossio mesolithica · Iura", period:"Mesolithicum", role:"Fossor",
+      desc:"Fossio ordinata stationis mesolithicae in fundo vallis. Locus consulto indicativus.",
+      skills:["Fossio","Documentatio in agro","Tractatio supellectilis"] }
   },
   {
-    name:'Cairn néolithique · Bretagne', type:'neo', sz:14,
-    coords:[47.95,-2.80], years:'2022',
-    period:'Néolithique',
-    role:'Fouilleur',
-    desc:'Fouille programmée d’un cairn néolithique en Bretagne intérieure. Expérience de fouille, de sondage sédimentologique et de traitement de données. Localisation volontairement indicative.',
-    skills:['Fouille','Géoarchéologie','Documentation']
+    type:"neo", sz:14, coords:[47.95,-2.80], years:"2022",
+    fr:{ name:"Cairn néolithique · Bretagne", period:"Néolithique", role:"Fouilleur",
+      desc:"Fouille programmée d’un cairn néolithique en Bretagne intérieure. Expérience de fouille, de sondage sédimentologique et de traitement de données. Localisation volontairement indicative.",
+      skills:["Fouille","Géoarchéologie","Documentation"] },
+    en:{ name:"Neolithic cairn · Brittany", period:"Neolithic", role:"Field excavator",
+      desc:"Research excavation of a Neolithic cairn in inland Brittany. Experience in excavation, sedimentological sampling and data processing. Location deliberately approximate.",
+      skills:["Excavation","Geoarchaeology","Documentation"] },
+    it:{ name:"Cairn neolitico · Bretagna", period:"Neolitico", role:"Operatore di scavo",
+      desc:"Scavo programmato di un cairn neolitico nell’entroterra bretone. Esperienza di scavo, di sondaggio sedimentologico e di elaborazione dei dati. Localizzazione volutamente indicativa.",
+      skills:["Scavo","Geoarcheologia","Documentazione"] },
+    la:{ name:"Tumulus lapideus neolithicus · Armorica", period:"Neolithicum", role:"Fossor",
+      desc:"Fossio ordinata tumuli lapidei neolithici in interiore Armorica. Usus fossionis, sondationis sedimentologicae et datorum tractationis. Locus consulto indicativus.",
+      skills:["Fossio","Geoarchaeologia","Documentatio"] }
   },
   {
-    name:'Fouille et prospection médiévale et moderne · Aude', type:'med', sz:14,
-    coords:[43.22,2.35], years:'2023, 2024',
-    period:'Médiéval / Moderne',
-    role:'Fouilleur · documentation graphique',
-    desc:'Opérations programmées sur un site castral médiéval et moderne dans l’Aude. Fouille, DAO, prospection, relevé pierre-à-pierre crédité et contribution au rapport de fouille 2023. Localisation volontairement indicative.',
-    skills:['Fouille','DAO','Prospection','Rapports scientifiques']
+    type:"med", sz:14, coords:[43.22,2.35], years:"2023, 2024",
+    fr:{ name:"Fouille et prospection médiévale et moderne · Aude", period:"Médiéval / Moderne", role:"Fouilleur · documentation graphique",
+      desc:"Opérations programmées sur un site castral médiéval et moderne dans l’Aude. Fouille, DAO, prospection, relevé pierre-à-pierre crédité et contribution au rapport de fouille 2023. Localisation volontairement indicative.",
+      skills:["Fouille","DAO","Prospection","Rapports scientifiques"] },
+    en:{ name:"Medieval and modern excavation and survey · Aude", period:"Medieval / Modern", role:"Field excavator · graphic documentation",
+      desc:"Research operations at a medieval and modern castle site in the Aude. Excavation, CAD, survey, credited stone-by-stone drawing and contribution to the 2023 excavation report. Location deliberately approximate.",
+      skills:["Excavation","CAD","Survey","Scientific reports"] },
+    it:{ name:"Scavo e prospezione medievale e moderna · Aude", period:"Medievale / Moderno", role:"Operatore di scavo · documentazione grafica",
+      desc:"Operazioni programmate in un sito castrale medievale e moderno nell’Aude. Scavo, CAD, prospezione, rilievo pietra per pietra accreditato e contributo alla relazione di scavo 2023. Localizzazione volutamente indicativa.",
+      skills:["Scavo","CAD","Prospezione","Relazioni scientifiche"] },
+    la:{ name:"Fossio et perlustratio medii aevi et aetatis recentioris · Aude", period:"Medium aevum / Aetas recentior", role:"Fossor · documentatio graphica",
+      desc:"Operationes ordinatae in loco castrali medii aevi et aetatis recentioris in Aude. Fossio, delineatio (CAD), perlustratio, descriptio lapidis ad lapidem nomine adscripto, pars in relatione fossionis anni 2023. Locus consulto indicativus.",
+      skills:["Fossio","CAD","Perlustratio","Relationes scientificae"] }
   },
   {
-    name:'Chanlat II · Corrèze', type:'pal', sz:14,
-    coords:[45.20,1.85], years:'2023',
-    period:'Paléolithique — Aurignacien',
-    role:'Inventaire de collection · Base de données',
-    desc:'Mémoire de M1 : inventaire complet d’une collection lithique aurignacienne (~3 100 artefacts). Structuration d’une base de données FileMaker Pro pour la documentation, la normalisation et l’analyse du corpus mobilier.',
-    skills:['Inventaire lithique','FileMaker Pro','Documentation de collection','Préhistoire']
+    type:"pal", sz:14, coords:[45.20,1.85], years:"2023",
+    fr:{ name:"Chanlat II · Corrèze", period:"Paléolithique — Aurignacien", role:"Inventaire de collection · Base de données",
+      desc:"Mémoire de M1 : inventaire complet d’une collection lithique aurignacienne (~3 100 artefacts). Structuration d’une base de données FileMaker Pro pour la documentation, la normalisation et l’analyse du corpus mobilier.",
+      skills:["Inventaire lithique","FileMaker Pro","Documentation de collection","Préhistoire"] },
+    en:{ name:"Chanlat II · Corrèze", period:"Palaeolithic — Aurignacian", role:"Collection inventory · Database",
+      desc:"Master 1 dissertation: complete inventory of an Aurignacian lithic collection (~3,100 artefacts). Structuring of a FileMaker Pro database for the documentation, standardisation and analysis of the finds corpus.",
+      skills:["Lithic inventory","FileMaker Pro","Collection documentation","Prehistory"] },
+    it:{ name:"Chanlat II · Corrèze", period:"Paleolitico — Aurignaziano", role:"Inventario di collezione · Database",
+      desc:"Tesi di Master 1: inventario completo di una collezione litica aurignaziana (~3 100 manufatti). Strutturazione di un database FileMaker Pro per la documentazione, la normalizzazione e l’analisi del corpus dei materiali.",
+      skills:["Inventario litico","FileMaker Pro","Documentazione di collezioni","Preistoria"] },
+    la:{ name:"Chanlat II · Corrèze", period:"Palaeolithicum — Aurignacianum", role:"Inventarium collectionis · Basis datorum",
+      desc:"Dissertatio magisterii primi: inventarium plenum collectionis lithicae Aurignacianae (~3 100 artefacta). Structura basis datorum FileMaker Pro ad documentationem, normalizationem et analysin corporis supellectilis.",
+      skills:["Inventarium lithicum","FileMaker Pro","Documentatio collectionis","Praehistoria"] }
   }
 ];
 
-/* ── Icônes ── */
+/* ═══════════════════════════════════════════════
+   3. CARTE
+   ═══════════════════════════════════════════════ */
+const C = { pal:"#BF6B28", neo:"#4E7A55", med:"#3D5291", edu:"#6B5D42" };
+const LANGS = ["fr","en","it","la"];
+let lang = "fr";
+
+const map = L.map("map", { center:[46.2, 4.5], zoom:5, zoomControl:false });
+L.control.zoom({ position:"topright" }).addTo(map);
+
+L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_3wab_1_6062fa988a8e0a1daff13680", {
+  attribution:"© <a href='https://openstreetmap.org/copyright'>OpenStreetMap</a> · <a href='https://carto.com/attributions'>CARTO</a>",
+  subdomains:"abcd", maxZoom:19
+}).addTo(map);
+
+const markerGroup = L.featureGroup().addTo(map);
+
 function mkIcon(type, sz) {
-  const col = C[type] || '#888';
+  const col = C[type] || "#888";
   return L.divIcon({
-    className: '',
+    className: "",
     html: `<div style="width:${sz}px;height:${sz}px;background:${col};border:2.5px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(20,16,8,.3);transition:transform .12s ease, box-shadow .12s ease;cursor:pointer;"></div>`,
-    iconSize: [sz, sz],
-    iconAnchor: [sz/2, sz/2],
-    popupAnchor: [0, -(sz/2 + 5)]
+    iconSize:[sz,sz], iconAnchor:[sz/2, sz/2], popupAnchor:[0, -(sz/2 + 5)]
   });
 }
 
-/* Icône de regroupement : anneau multicolore (une part par entrée) + nombre */
 function mkHubIcon(entries) {
   const sz = 28, n = entries.length;
   const stops = entries.map((s, i) =>
-    `${C[s.type] || '#888'} ${(i * 100 / n).toFixed(1)}% ${((i + 1) * 100 / n).toFixed(1)}%`
-  ).join(', ');
+    `${C[s.type] || "#888"} ${(i*100/n).toFixed(1)}% ${((i+1)*100/n).toFixed(1)}%`).join(", ");
   return L.divIcon({
-    className: '',
+    className: "",
     html: `<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:conic-gradient(${stops});border:2.5px solid #fff;box-shadow:0 2px 8px rgba(20,16,8,.3);display:flex;align-items:center;justify-content:center;transition:transform .12s ease, box-shadow .12s ease;cursor:pointer;"><span style="width:15px;height:15px;border-radius:50%;background:#fff;color:#1E1C18;font:700 .64rem/15px system-ui,sans-serif;text-align:center;">${n}</span></div>`,
-    iconSize: [sz, sz],
-    iconAnchor: [sz/2, sz/2],
-    popupAnchor: [0, -(sz/2 + 5)]
+    iconSize:[sz,sz], iconAnchor:[sz/2, sz/2], popupAnchor:[0, -(sz/2 + 5)]
   });
 }
 
-/* ── Contenu des popups ── */
 function entryHTML(s) {
-  const col = C[s.type] || '#888';
-  const chips = s.skills.map(k => `<span class="pop-skill">${k}</span>`).join('');
+  const t = s[lang], col = C[s.type] || "#888";
+  const chips = t.skills.map(k => `<span class="pop-skill">${k}</span>`).join("");
+  const link = s.link
+    ? ` <a href="${s.link}" target="_blank" rel="noopener noreferrer">${t.linkLabel}</a>` : "";
   return `
     <div class="pop-stripe" style="background:${col}"></div>
     <div class="pop-body">
-      <div class="pop-name">${s.name}</div>
-      <div class="pop-period" style="color:${col}">${s.period}</div>
+      <div class="pop-name">${t.name}</div>
+      <div class="pop-period" style="color:${col}">${t.period}</div>
       <div class="pop-meta">📅 ${s.years}</div>
-      <div class="pop-role">${s.role}</div>
+      <div class="pop-role">${t.role}</div>
       <div class="pop-rule"></div>
-      <p class="pop-desc">${s.desc}</p>
+      <p class="pop-desc">${t.desc}${link}</p>
       <div class="pop-skills">${chips}</div>
     </div>`;
 }
 
 function hubHTML(entries) {
   const tabs = entries.map((s, i) =>
-    `<button type="button" class="tab${i === 0 ? ' active' : ''}" data-i="${i}" style="--c:${C[s.type] || '#888'}">${s.tab || s.name}</button>`
-  ).join('');
+    `<button type="button" class="tab${i === 0 ? " active" : ""}" data-i="${i}" style="--c:${C[s.type] || "#888"}">${s[lang].tab || s[lang].name}</button>`
+  ).join("");
   const bodies = entries.map((s, i) =>
-    `<div class="entry" data-i="${i}"${i === 0 ? '' : ' hidden'}>${entryHTML(s)}</div>`
-  ).join('');
+    `<div class="entry" data-i="${i}"${i === 0 ? "" : " hidden"}>${entryHTML(s)}</div>`
+  ).join("");
   return `<div class="tabs">${tabs}</div>${bodies}`;
 }
 
-/* ── Regroupement par lieu ── */
-const groups = new Map();
-SITES.forEach(s => {
-  const key = s.hub || s.name;
-  if (!groups.has(key)) groups.set(key, []);
-  groups.get(key).push(s);
-});
-
 function hoverFx(m) {
-  m.on('mouseover', function () {
-    const d = this._icon && this._icon.querySelector('div');
-    if (d) { d.style.transform = 'scale(1.3)'; d.style.boxShadow = '0 4px 14px rgba(20,16,8,.4)'; }
+  m.on("mouseover", function () {
+    const d = this._icon && this._icon.querySelector("div");
+    if (d) { d.style.transform = "scale(1.3)"; d.style.boxShadow = "0 4px 14px rgba(20,16,8,.4)"; }
   });
-  m.on('mouseout', function () {
-    const d = this._icon && this._icon.querySelector('div');
-    if (d) { d.style.transform = 'scale(1)'; d.style.boxShadow = '0 2px 8px rgba(20,16,8,.3)'; }
+  m.on("mouseout", function () {
+    const d = this._icon && this._icon.querySelector("div");
+    if (d) { d.style.transform = "scale(1)"; d.style.boxShadow = "0 2px 8px rgba(20,16,8,.3)"; }
   });
 }
 
-groups.forEach((entries, key) => {
-  let m;
-  if (entries.length === 1) {
-    const s = entries[0];
-    m = L.marker(s.coords, { icon: mkIcon(s.type, s.sz) });
-    m.bindPopup(entryHTML(s), { maxWidth: 310 });
-    m.bindTooltip(s.name.split('·')[0].trim(), { direction:'top', offset:[0, -(s.sz/2 + 3)] });
-  } else {
-    m = L.marker(entries[0].coords, { icon: mkHubIcon(entries) });
-    m.bindPopup(hubHTML(entries), { maxWidth: 310 });
-    const label = key.charAt(0).toUpperCase() + key.slice(1);
-    m.bindTooltip(`${label} · ${entries.length} entrées`, { direction:'top', offset:[0, -17] });
-    /* Gestion des onglets à l'ouverture du popup */
-    m.on('popupopen', e => {
-      const el = e.popup.getElement();
-      el.querySelectorAll('.tab').forEach(btn => {
-        btn.addEventListener('click', () => {
+/* (Re)construit tous les marqueurs dans la langue courante */
+function renderMarkers() {
+  map.closePopup();
+  markerGroup.clearLayers();
+
+  const groups = new Map();
+  SITES.forEach((s, idx) => {
+    const key = s.hub || ("site" + idx);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(s);
+  });
+
+  groups.forEach((entries, key) => {
+    let m;
+    if (entries.length === 1) {
+      const s = entries[0];
+      m = L.marker(s.coords, { icon: mkIcon(s.type, s.sz) });
+      m.bindPopup(entryHTML(s), { maxWidth:310 });
+      m.bindTooltip(s[lang].name.split("·")[0].trim(), { direction:"top", offset:[0, -(s.sz/2 + 3)] });
+    } else {
+      m = L.marker(entries[0].coords, { icon: mkHubIcon(entries) });
+      /* Le contenu est un vrai nœud DOM (et non une chaîne HTML) : Leaflet le
+         réutilise tel quel lors de popup.update(), donc les onglets gardent
+         leurs écouteurs et leur état. */
+      const wrap = document.createElement("div");
+      wrap.innerHTML = hubHTML(entries);
+      wrap.querySelectorAll(".tab").forEach(btn => {
+        btn.addEventListener("click", () => {
           const i = btn.dataset.i;
-          el.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
-          el.querySelectorAll('.entry').forEach(x => { x.hidden = (x.dataset.i !== i); });
-          e.popup.update();
+          wrap.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b === btn));
+          wrap.querySelectorAll(".entry").forEach(x => { x.hidden = (x.dataset.i !== i); });
+          m.getPopup().update();
         });
       });
-    });
+      m.bindPopup(wrap, { maxWidth:310 });
+      const label = (HUBS[key] && HUBS[key][lang]) || key;
+      m.bindTooltip(`${label} · ${entries.length} ${UI[lang].entries}`, { direction:"top", offset:[0, -17] });
+    }
+    hoverFx(m);
+    markerGroup.addLayer(m);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   4. CHANGEMENT DE LANGUE
+   ═══════════════════════════════════════════════ */
+function applyUI() {
+  const t = UI[lang];
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t[el.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = t[el.dataset.i18nHtml]; });
+  document.querySelectorAll(".lang-btn").forEach(b => {
+    const on = b.dataset.lang === lang;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+}
+
+function setLang(l, persist) {
+  if (!LANGS.includes(l)) l = "fr";
+  lang = l;
+  applyUI();
+  renderMarkers();
+  if (persist) {
+    try { localStorage.setItem("cv-carto-lang", l); } catch (e) {}
+    try {
+      const u = new URL(location.href);
+      u.searchParams.set("lang", l);
+      history.replaceState(null, "", u);
+    } catch (e) {}
   }
-  hoverFx(m);
-  markerGroup.addLayer(m);
+}
+
+document.querySelectorAll(".lang-btn").forEach(b => {
+  b.addEventListener("click", () => setLang(b.dataset.lang, true));
 });
 
-markerGroup.addTo(map);
+/* Langue initiale : ?lang=xx  >  choix mémorisé  >  langue du navigateur (fr/en/it)  >  fr */
+function initialLang() {
+  try {
+    const q = new URLSearchParams(location.search).get("lang");
+    if (LANGS.includes(q)) return q;
+  } catch (e) {}
+  try {
+    const s = localStorage.getItem("cv-carto-lang");
+    if (LANGS.includes(s)) return s;
+  } catch (e) {}
+  const nav = (navigator.language || "fr").slice(0, 2).toLowerCase();
+  return LANGS.includes(nav) ? nav : "fr";
+}
+
+setLang(initialLang(), false);
 if (markerGroup.getLayers().length) {
   map.fitBounds(markerGroup.getBounds().pad(0.18));
 }
