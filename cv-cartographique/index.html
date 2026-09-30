@@ -154,7 +154,7 @@ const C = { pal:'#BF6B28', neo:'#4E7A55', med:'#3D5291', edu:'#6B5D42' };
 const map = L.map('map', { center:[46.2, 4.5], zoom:5, zoomControl:false });
 L.control.zoom({ position:'topright' }).addTo(map);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_3wab_1_6062fa988a8e0a1daff13680', {
   attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/attributions">CARTO</a>',
   subdomains:'abcd', maxZoom:19
 }).addTo(map);
