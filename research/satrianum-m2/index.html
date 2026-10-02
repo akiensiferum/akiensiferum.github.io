@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Dans les cendres du temps — Mémoire M2, Ganlin XIA</title>
+<title>Dans les cendres du temps — Mémoire M2, Acius Exio</title>
 <style>
   :root {
     --ink: #1c1c1a;
@@ -74,18 +74,17 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 0;
-    padding: 0.8rem 1.4rem;
+    padding: 0.7rem 1.2rem;
     background: var(--accent);
     color: var(--button-ink);
     text-decoration: none;
     font-family: -apple-system, "Segoe UI", sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     border-radius: 3px;
     transition: opacity 0.15s ease;
   }
   .download:hover { opacity: 0.85; }
-  .download svg { width: 16px; height: 16px; fill: currentColor; }
+  .download.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   footer {
     margin-top: 3.5rem;
     padding-top: 1.2rem;
@@ -97,8 +96,29 @@
   footer a { color: var(--muted); }
 
   a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
-  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 .75rem; }
-  .secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+
+  .doc-list { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+  .doc-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc-row:first-child { border-top: 1px solid var(--line); }
+  .doc-label { font-family: -apple-system, "Segoe UI", sans-serif; }
+  .doc-label .primary-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-left: 0.5rem;
+  }
+  .doc-row a { font-family: -apple-system, "Segoe UI", sans-serif; font-size: 0.88rem; color: var(--accent); text-decoration: none; }
+  .doc-row a:hover { text-decoration: underline; }
+
   .file-note { font-family: -apple-system, "Segoe UI", sans-serif; font-size: .85rem; color: var(--muted); }
   summary { cursor: pointer; color: var(--accent); padding: .8rem 0; }
   iframe { width: 100%; height: 75vh; min-height: 360px; border: 1px solid var(--line); background: white; }
@@ -121,13 +141,13 @@
     --accent: #d08a63;
     --line: #35332c;
     --muted: #b5ada0;
-      --button-ink: #171613;
+    --button-ink: #171613;
   }
 </style>
 </head>
 <body>
 <main>
-  <div class="kicker">Master’s dissertation · Archaeology and Archaeological Sciences</div>
+  <div class="kicker">Master's dissertation · Archaeology and Archaeological Sciences</div>
 
   <h1 lang="fr">
     Dans les cendres du temps&nbsp;: application de la méthode de répartition spatiale à une couche incendiée à Satrianum (Basilicate, Italie)
@@ -135,10 +155,10 @@
   </h1>
 
   <div class="meta">
-    <div><b>Author:</b> Ganlin XIA</div>
+    <div><b>Author:</b> Acius Exio</div>
     <div><b>Institution:</b> Université Rennes 2, France</div>
     <div><b>Year:</b> 2025</div>
-    <div><b>Master’s degree:</b> <span lang="fr">Mention Bien</span> · <b>Dissertation:</b> 18/20</div>
+    <div><b>Master's degree:</b> <span lang="fr">Mention Bien</span> · <b>Dissertation:</b> 18/20</div>
     <div><b>Site:</b> Torre di Satriano (Satrianum), Tito, Basilicata, Italy</div>
   </div>
 
@@ -163,20 +183,36 @@
     source of certainty.
   </p>
 
-  <!-- Deployment: place memoire-m2-satrianum.pdf beside this HTML file.
-       This page is unlisted, not access-controlled. Its robots directive does not
-       prevent indexing of the PDF or discovery through a public repository. -->
-  <section aria-labelledby="dissertation-heading">
-    <h2 id="dissertation-heading">Full dissertation</h2>
-    <div class="actions">
-      <a class="download" href="memoire-m2-satrianum.pdf" target="_blank" rel="noopener">Read PDF <span class="sr-note">(new tab)</span></a>
-      <a class="download secondary" href="memoire-m2-satrianum.pdf" download>Download PDF</a>
-    </div>
-    <p class="file-note">Full text in French · English abstract above</p>
+  <!-- Deployment: place these four files beside this HTML file —
+       english-summary.pdf, volume-1-text.pdf, volume-2-figures.pdf,
+       volume-3-appendices.pdf. This page is unlisted, not access-controlled.
+       Its robots directive does not prevent indexing of the PDFs themselves
+       or discovery through the public repository. -->
+  <section aria-labelledby="documents-heading">
+    <h2 id="documents-heading">Documents</h2>
+    <ul class="doc-list">
+      <li class="doc-row">
+        <span class="doc-label">English summary (1 page)<span class="primary-tag">Start here</span></span>
+        <a href="english-summary.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+      </li>
+      <li class="doc-row">
+        <span class="doc-label">Volume I — Text (French)</span>
+        <a href="volume-1-text.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+      </li>
+      <li class="doc-row">
+        <span class="doc-label">Volume II — Figures (French)</span>
+        <a href="volume-2-figures.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+      </li>
+      <li class="doc-row">
+        <span class="doc-label">Volume III — Appendices (French)</span>
+        <a href="volume-3-appendices.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+      </li>
+    </ul>
+    <p class="file-note">English summary above · full dissertation (text, figures, appendices) in French</p>
     <details id="reader">
-      <summary>Read on this page</summary>
-      <p class="file-note">If the reader is unavailable, use the Read PDF or Download PDF button above.</p>
-      <iframe title="Full Master’s dissertation in French" data-src="memoire-m2-satrianum.pdf" loading="lazy"></iframe>
+      <summary>Read Volume I on this page</summary>
+      <p class="file-note">If the reader is unavailable, use the Open PDF link above.</p>
+      <iframe title="Volume I — full text in French" data-src="volume-1-text.pdf" loading="lazy"></iframe>
     </details>
   </section>
 
@@ -185,7 +221,7 @@
   </footer>
 </main>
 <script>
-  // Load the full document only when the reader is opened.
+  // Load Volume I only when the reader is opened.
   document.getElementById('reader').addEventListener('toggle', function () {
     const frame = this.querySelector('iframe');
     if (this.open && !frame.getAttribute('src')) frame.src = frame.dataset.src;
