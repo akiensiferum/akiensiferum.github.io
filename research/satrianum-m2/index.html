@@ -5,148 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Dans les cendres du temps — Mémoire M2, Ganolin XIA</title>
+<script src="/assets/js/theme.js"></script>
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/page-polish.css">
 <style>
-  :root {
-    --ink: #1c1c1a;
-    --paper: #faf8f4;
-    --accent: #8a4b32;
-    --line: #ddd6cb;
-    --muted: #6b655c;
-    --button-ink: #ffffff;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
-  body {
-    margin: 0;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: var(--paper);
-    color: var(--ink);
-    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
-    line-height: 1.6;
-  }
-  main {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem 5rem;
-  }
-  .kicker {
-    font-family: -apple-system, "Segoe UI", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-bottom: 1.1rem;
-  }
-  h1 {
-    font-size: 1.7rem;
-    line-height: 1.3;
-    margin: 0 0 0.3rem;
-    font-weight: normal;
-  }
-  h1 .gloss {
-    display: block;
-    font-size: 1.05rem;
-    font-style: italic;
-    color: var(--muted);
-    margin-top: 0.4rem;
-  }
-  .meta {
-    font-family: -apple-system, "Segoe UI", sans-serif;
-    font-size: 0.88rem;
-    color: var(--muted);
-    margin: 1.4rem 0 2.2rem;
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .meta div { margin-bottom: 0.25rem; }
-  .meta b { color: var(--ink); font-weight: 600; }
-  h2 {
-    font-family: -apple-system, "Segoe UI", sans-serif;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin: 2.4rem 0 0.8rem;
-  }
-  p { margin: 0 0 1rem; }
-  .download {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 1.2rem;
-    background: var(--accent);
-    color: var(--button-ink);
-    text-decoration: none;
-    font-family: -apple-system, "Segoe UI", sans-serif;
-    font-size: 0.92rem;
-    border-radius: 3px;
-    transition: opacity 0.15s ease;
-  }
-  .download:hover { opacity: 0.85; }
-  .download.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-  footer {
-    margin-top: 3.5rem;
-    padding-top: 1.2rem;
-    border-top: 1px solid var(--line);
-    font-family: -apple-system, "Segoe UI", sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-  footer a { color: var(--muted); }
-
-  a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
-
-  .doc-list { list-style: none; margin: 0 0 1.5rem; padding: 0; }
-  .doc-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.6rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .doc-row:first-child { border-top: 1px solid var(--line); }
-  .doc-label { font-family: -apple-system, "Segoe UI", sans-serif; }
-  .doc-label .primary-tag {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    margin-left: 0.5rem;
-  }
-  .doc-row a { font-family: -apple-system, "Segoe UI", sans-serif; font-size: 0.88rem; color: var(--accent); text-decoration: none; }
-  .doc-row a:hover { text-decoration: underline; }
-
-  .file-note { font-family: -apple-system, "Segoe UI", sans-serif; font-size: .85rem; color: var(--muted); }
-  summary { cursor: pointer; color: var(--accent); padding: .8rem 0; }
-  iframe { width: 100%; height: 75vh; min-height: 360px; border: 1px solid var(--line); background: white; }
-  @media (max-width: 480px) { main { padding: 2rem 1.25rem 3rem; } h1 { font-size: 1.5rem; } }
-  @media print { body { background: white; color: black; } main { max-width: none; padding: 0; } details { display: none; } .download { background: none; color: black; border: 1px solid; } }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ink: #ece7dd;
-      --paper: #171613;
-      --accent: #d08a63;
-      --line: #35332c;
-      --muted: #b5ada0;
-      --button-ink: #171613;
-    }
-  }
-  :root[data-theme="dark"] {
-    --ink: #ece7dd;
-    --paper: #171613;
-    --accent: #d08a63;
-    --line: #35332c;
-    --muted: #b5ada0;
-    --button-ink: #171613;
-  }
+/* Page layout only: colours, fonts and themes come from site.css. */
+.thesis-page { max-width: 900px; }
+.thesis-page .kicker { font-family: var(--font-sans); font-size: var(--fs-small); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.thesis-page h1 { font-size: clamp(1.85rem, 3.5vw, 2.7rem); line-height: 1.2; }
+.thesis-page .gloss { display: block; font-size: .6em; font-weight: 400; font-style: italic; color: var(--muted); margin-top: 1rem; }
+.thesis-page .meta { margin: var(--space-5) 0; padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); line-height: 1.8; }
+.thesis-page .meta b { color: var(--text); }
+.thesis-page .doc-list { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.thesis-page .doc-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.thesis-page .doc-row:first-child { border-top: 1px solid var(--border); }
+.thesis-page .doc-label, .thesis-page .doc-row a, .thesis-page .file-note { font-family: var(--font-sans); font-size: var(--fs-small); }
+.thesis-page .primary-tag { display: inline-block; color: var(--color-link); margin-left: .5rem; font-size: .75rem; }
+.thesis-page .file-note { color: var(--muted); }
+.thesis-page summary { cursor: pointer; color: var(--color-link); padding: 1rem 0; }
+.thesis-page iframe { width: 100%; height: 75vh; min-height: 360px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); }
+.thesis-page a:focus-visible, .thesis-page summary:focus-visible, .thesis-toolbar a:focus-visible, .thesis-toolbar button:focus-visible { outline: 2px solid var(--color-link); outline-offset: 4px; }
+.thesis-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; padding-bottom: 1rem; font-family: var(--font-sans); font-size: var(--fs-small); }
+.thesis-page footer { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--border); color: var(--muted); }
+@media (max-width: 520px) { .thesis-page .doc-row { align-items: flex-start; flex-direction: column; } }
+@media print { .thesis-toolbar, .thesis-page details { display: none; } }
 </style>
 </head>
 <body>
-<main>
+<div class="container thesis-toolbar"><a href="/">Acius Exio</a><button class="btn" type="button" data-theme-toggle aria-label="Switch between light and dark themes">Light / dark</button></div>
+<main class="container simple-page thesis-page">
   <div class="kicker">Master's dissertation · Archaeology and Archaeological Sciences</div>
 
   <h1 lang="fr">
